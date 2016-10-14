@@ -1,0 +1,22 @@
+@foreach ($samples as $line)
+  "{{$line->sample_dt}}"
+@endforeach
+
+
+
+
+
+<!--            {% if (tMax|float > tSPHigh|float) %}
+                max:  {{ tMax }} + 0.5,
+            {% else %}
+                max:  {{ tSPHigh }} + 0.5,
+            {% endif %}
+
+            //min: {{tempvalues[-1]}} - tspan+1,
+            //max:  {{tSPHigh}} + 6,
+            {% if tMin|float < tSPLow|float %}
+                min:  {{ tMin }} - 0.5,
+            {% else %}
+                min:  {{ tSPLow }} - 0.5,
+            {% endif %}
+-->

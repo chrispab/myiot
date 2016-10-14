@@ -1,0 +1,2 @@
+[Fri Oct 07 21:12:29.081913 2016] [:error] [pid 8138] [client 127.0.0.1:52856] script '/home/lma/Sites/myiot/public/phpinfo.php' not found or unable to stat
+[Sat Oct 08 15:57:40.082400 2016] [:error] [pid 1908] [client 127.0.0.1:42528] PHP Fatal error:  Cannot use [] for reading in /home/lma/Sites/myiot/storage/framework/views/4da8b0383ea45d8f8c6834a2eaa26f75395994f3.php on line 5, referer: http://myiot.local/
