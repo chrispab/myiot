@@ -26,6 +26,8 @@
         <li><a href="2.0" hours-range='2.0'>2 Hours</a></li>
         <li><a href="12.0" hours-range='12.0'>12 Hours</a></li>
         <li><a href="24" hours-range='24'>1 Day</a></li>
+        <li><a href="99999" hours-range='99999'>All</a></li>
+
       </ul>
 </div>
 <h4 class="text-center">{{$hours}} hours</h4>

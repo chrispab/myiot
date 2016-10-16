@@ -34,7 +34,7 @@ class GraphController extends Controller
       $tmin = DB::select('SELECT MIN(temperature) AS temperature from thdata where sample_dt > ?', [$start_time_str]);
       $tmin = $tmin[0]->temperature;
 
-      $tSPhi = 24.3;
+      $tSPhi = 22.5;
       $tSPlo = 16.9;
 
       $settings = [
