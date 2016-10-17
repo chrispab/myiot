@@ -43,27 +43,7 @@ class GraphController extends Controller
           'tmax' => $tmax,
           'tmin'=> $tmin
       ];
-      // calc actual start sample id
-      // $start_sample_time = last_t - start_t
-      //$samples = DB::table('thdata')->all();
-      //$samples = DB::table('thdata')->paginate(30);
-      //return $samples;
-      //$samples[]
-    //   {{-- ['name' => 'Samantha'] --}}
-    //
 
-    //$tmax = $tmax->('temperature');
-    //echo $tmax['temperature'];
-    //var_dump($samples);
-    //echo '<pre>';
-    //$array = (array) $tmax;
-    //die(var_dump( $hours ) );
-    //echo '</pre>';
-
-
-        //return view('graph', ['samples' => $samples], compact('hours', 'settings'));
-        //return view('graph', ['samples' => $samples], compact('hours', 'settings'));
         return view('graph', compact('samples', 'hours', 'settings'));
-        //return View::make('graph', compact('samples', 'hours', 'settings'));
     }
 }

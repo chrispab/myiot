@@ -1,27 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layout')
+@section('head')
+  <title>MyIoT - Graphs</title>
 
-        <title>MyIoT</title>
+@stop
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet" type="text/css">
+      @section('content')
 
-        <!-- Styles -->
-        <link rel="stylesheet" type="text/css" href="css/origstyles.css">
-
-    </head>
-    <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
+
+            {{-- @if (Route::has('login'))
                 <div class="top-right links">
                     <a href="{{ url('/login') }}">Login</a>
                     <a href="{{ url('/register') }}">Register</a>
                 </div>
-            @endif
+            @endif --}}
 
             <div class="content">
                 <div class="title m-b-md">
@@ -34,5 +26,4 @@
                 </div>
             </div>
         </div>
-    </body>
-</html>
+@stop
