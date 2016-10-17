@@ -18,25 +18,43 @@
           </div>
       @endif --}}
       <div class="container-fluid bg-3 text-center">
-       <h3>Where To Find Me?</h3>
+       <h3>Where to?</h3>
+       <div class="row">
+         <div class="col-sm-3">
+           <p>Heating</p>
+           <img src="birds1.jpg" alt="Heating">
+         </div>
+         <div class="col-sm-3">
+           <p>Lighting</p>
+           <img src="birds2.jpg" alt="Lighting">
+         </div>
+         <div class="col-sm-3">
+           <p>Utilities</p>
+           <img src="birds3.jpg" alt="Utilities">
+         </div>
+         <div class="col-sm-3">
+           <p>Cameras</p>
+           <img src="birds3.jpg" alt="Cameras">
+         </div>
+       </div>
        <div class="row">
          <div class="col-sm-4">
-           <p>Lorem ipsum..</p>
-           <img src="birds1.jpg" alt="Image">
+           <p>Heating</p>
+           <img src="birds1.jpg" alt="Heating">
          </div>
          <div class="col-sm-4">
-           <p>Lorem ipsum..</p>
-           <img src="birds2.jpg" alt="Image">
+           <p>Lighting</p>
+           <img src="birds2.jpg" alt="Lighting">
          </div>
          <div class="col-sm-4">
-           <p>Lorem ipsum..</p>
-           <img src="birds3.jpg" alt="Image">
+           <p>Utilities</p>
+           <img src="birds3.jpg" alt="Utilities">
          </div>
        </div>
      </div>
 
      <div class="flex-center position-ref full-height">
-     
+
       <div class="content">
           <div class="title m-b-md">
 
