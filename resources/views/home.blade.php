@@ -8,10 +8,12 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    You are logged in!
+                    You are logged in!  yay
                 </div>
             </div>
         </div>
     </div>
+    <img class="img-responsive" src="images/img1.JPG" class="img-rounded" alt="iot" width="304" height="236">
+
 </div>
 @endsection

@@ -3,19 +3,21 @@
 use Illuminate\Support\Facades\DB;
 
 
+Auth::routes();
+
+
 Route::get('/', function () {
     return view('welcome');
 
-});
+})->middleware('auth');
 
 // Route::get('graph', function () {
 //     return 'graph';
 // });
 
-Route::get('graph/{hours}', 'GraphController@home')->middleware('auth');;
+Route::get('graph/{hours}', 'GraphController@home')->middleware('auth');
 
-Route::get('dashboard', 'DashboardController@home');
+Route::get('dashboard', 'DashboardController@home')->middleware('auth');
 
-Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/home', 'HomeController@index')->middleware('auth');
