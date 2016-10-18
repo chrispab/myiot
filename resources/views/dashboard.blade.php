@@ -22,38 +22,25 @@
        <div class="row">
          <div class="col-sm-3">
            <p>Heating</p>
-           <img src="birds1.jpg" alt="Heating">
+           <img src="/images/radiator200.svg" alt="Heating" class="img-rounded" width="128" height="128">
          </div>
          <div class="col-sm-3">
            <p>Lighting</p>
-           <img src="birds2.jpg" alt="Lighting">
+           <img src="/images/bulb512x512.png" alt="Lighting" class="img-rounded" width="128" height="128">
          </div>
          <div class="col-sm-3">
            <p>Utilities</p>
-           <img src="birds3.jpg" alt="Utilities">
+           <img src="/images/home128.png" alt="Utilities" class="img-rounded" width="128" height="128">
          </div>
          <div class="col-sm-3">
            <p>Cameras</p>
-           <img src="birds3.jpg" alt="Cameras">
+           <img src="/images/video_camera128.png" alt="Cameras" class="img-rounded" width="128" height="128">
          </div>
        </div>
-       <div class="row">
-         <div class="col-sm-4">
-           <p>Heating</p>
-           <img src="birds1.jpg" alt="Heating">
-         </div>
-         <div class="col-sm-4">
-           <p>Lighting</p>
-           <img src="birds2.jpg" alt="Lighting">
-         </div>
-         <div class="col-sm-4">
-           <p>Utilities</p>
-           <img src="birds3.jpg" alt="Utilities">
-         </div>
-       </div>
+
      </div>
 
-     <div class="flex-center position-ref full-height">
+     {{-- <div class="flex-center position-ref full-height">
 
       <div class="content">
           <div class="title m-b-md">
@@ -65,19 +52,6 @@
 
           </div>
       </div>
-  </div>
-  <div class="row">
-  <div class="col-sm-4">
-    <p><strong>Name</strong></p><br>
-    <img src="bandmember.jpg" alt="Random Name">
-  </div>
-  <div class="col-sm-4">
-    <p><strong>Name</strong></p><br>
-    <img src="bandmember.jpg" alt="Random Name">
-  </div>
-  <div class="col-sm-4">
-    <p><strong>Name</strong></p><br>
-    <img src="bandmember.jpg" alt="Random Name">
-  </div>
-</div>
+  </div> --}}
+
 @stop
