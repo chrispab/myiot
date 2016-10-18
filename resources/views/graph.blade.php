@@ -32,7 +32,9 @@
 </div>
 <h4 class="text-center">{{$hours}} hours</h4>
 <p id="chart" class="text-center">Just a moment...Processing Data</p>
-<h6>Samples: {{count($samples)}}, Load Time: <div class="loadtime"style="border: solid 1px #ccc; display: inline-block;"></div> seconds</h6>
+<h6>Samples: {{count($samples)}}, Load Time:
+    <div class="loadtime"style="border: solid 1px #ccc; display: inline-block;"></div>
+     seconds, last sample time: {{$settings['tlast_sample']}}</h6>
 <h6>tmax: {{$settings['tmax']}}, tmin: {{$settings['tmin']}} - tSPhi: {{$settings['tSPhi']}}, tSPlo; {{$settings['tSPlo']}}</h6>
 
 <?php
