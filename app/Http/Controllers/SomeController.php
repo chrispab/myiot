@@ -14,7 +14,7 @@ class SomeController extends Controller
         if ($request->isMethod('post')){
             return response()->json(['response' => 'This is post method']);
         }
-
-        return response()->json(['response' => 'This is get method']);
+        //return Response::json( $response );
+        return Response::json(['response' => 'This is get method']);
     }
 }

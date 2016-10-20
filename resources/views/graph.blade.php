@@ -11,7 +11,15 @@
         setTimeout("location.reload(true);",timeoutPeriod);
     }
 </script>
-
+<script>
+$(document).ready(function(){
+    $("button").click(function(){
+        $.get('/test', function(){
+            alert('response');
+        });
+    });
+});
+</script>
 
   <title>MyIoT - Graphs</title>
 @stop
@@ -19,7 +27,22 @@
 @section('content')
   <div class="row">
     <div class="col-md-12">
-      <ul class="nav nav-pills ranges">
+
+        <div class="dropdown">
+         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Time Period
+         <span class="caret"></span></button>
+         <ul class="dropdown-menu">
+             <li><a href="0.25" hours-range='0.25'>15 Mins</a></li>
+           <li><a href="0.5" hours-range='0.5'>30 Mins</a></li>
+           <li><a href="1.0" hours-range='1.0'>1 Hour</a></li>
+           <li><a href="2.0" hours-range='2.0'>2 Hours</a></li>
+           <li><a href="12.0" hours-range='12.0'>12 Hours</a></li>
+           <li><a href="24" hours-range='24'>1 Day</a></li>
+           <li><a href="99999" hours-range='99999'>All</a></li>
+         </ul>
+        </div
+
+      {{-- <ul class="nav nav-pills ranges">
           <li><a href="0.25" hours-range='0.25'>15 Mins</a></li>
         <li><a href="0.5" hours-range='0.5'>30 Mins</a></li>
         <li><a href="1.0" hours-range='1.0'>1 Hour</a></li>
@@ -28,7 +51,7 @@
         <li><a href="24" hours-range='24'>1 Day</a></li>
         <li><a href="99999" hours-range='99999'>All</a></li>
 
-      </ul>
+      </ul> --}}
 </div>
 <h4 class="text-center">{{$hours}} hours</h4>
 <p id="chart" class="text-center">Just a moment...Processing Data</p>
@@ -36,6 +59,8 @@
     <div class="loadtime"style="border: solid 1px #ccc; display: inline-block;"></div>
      seconds, last sample time: {{$settings['tlast_sample']}}</h6>
 <h6>tmax: {{$settings['tmax']}}, tmin: {{$settings['tmin']}} - tSPhi: {{$settings['tSPhi']}}, tSPlo; {{$settings['tSPlo']}}</h6>
+
+<button>Send an HTTP GET request to a page and get the result back</button>
 
 <?php
 $humibase = 10;
