@@ -46,9 +46,16 @@
                </div>
                <div class="collapse navbar-collapse" id="myNavbar">
                  <ul class="nav navbar-nav">
-                   <li class="active"><a href="/">Home</a></li>
+                   <li ><a href="/">Home</a></li>
                    <li><a href="/dashboard">Dashboard</a></li>
-                   <li><a href="/graph/0.5">Graphs</a></li>
+                   <li class="dropdown">
+                      <a class="dropdown-toggle" data-toggle="dropdown" href="#">Graphs <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="/graph/0.5">30 Mins</a></li>
+                        <li><a href="/graph/1.0">1 Hour</a></li>
+                        <li><a href="/graph/2.0">2 Hours</a></li>
+                      </ul>
+                    </li>
                    <li><a href="#">Settings</a></li>
                    <li><a href="#">Help</a></li>
                  </ul>
@@ -81,6 +88,8 @@
                </div>
              </div>
            </nav>
+
+
          <div class="container">
            @yield('content')
           </div>

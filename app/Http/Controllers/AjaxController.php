@@ -15,6 +15,6 @@ class AjaxController extends Controller
      */
     public function ajax()
     {
-        return 'home';
+        return view('ajax');
     }
 }

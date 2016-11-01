@@ -1,6 +1,6 @@
 @extends('layout')
 @section('head')
-  <title>MyIoT - Graphs</title>
+  <title>MyIoT</title>
 
 @stop
 
@@ -16,7 +16,7 @@
             @endif --}}
 
             <div class="content">
-                <div class="title m-b-md">
+                <div class="title">
                     MyIoT
                 </div>
 
