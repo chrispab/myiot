@@ -21,7 +21,7 @@ $(document).ready(function(){
 });
 </script>
 
-  <title>MyIoT - Graph</title>
+  <title>MyIoT - {{$settings['zone']}} Graph - {{$hours}} Hours</title>
 @stop
 
 @section('content')
@@ -43,7 +43,9 @@ $(document).ready(function(){
         </div --}}
 
 </div>
-<h4 class="text-center">{{$hours}} hours</h4>
+
+
+<h4 class="text-center">{{$settings['zone']}} - {{$hours}} hours</h4>
 <p id="chart" class="text-center">Just a moment...Processing Data</p>
 <h6>Samples: {{count($samples)}}</h6>
 <h6>Load Time:<div class="loadtime"style="border: solid 1px #ccc; display: inline-block;"></div>

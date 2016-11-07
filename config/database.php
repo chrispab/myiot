@@ -54,11 +54,25 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', '192.168.0.53'),
+            'host' => env('DB_HOST', '192.168.0.153'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'sensordata_db'),
-            'username' => env('DB_USERNAME', 'controller'),
-            'password' => env('DB_PASSWORD', 'password'),
+            'username' => env('DB_USERNAME', 'myiot'),
+            'password' => env('DB_PASSWORD', 'myiot'),
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
+        'pcdmysql' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST', '192.168.0.155'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_DATABASE', 'sensordata_db'),
+            'username' => env('DB_USERNAME', 'root'),
+            'password' => env('DB_PASSWORD', 'ubuntu'),
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',

@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Redirect;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -44,6 +45,15 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof \PDOException) {
+            return Redirect::back();
+
+            ////return redirect('graph/0.5');
+
+            //return Redirect::to(URL::previous());
+            //return response()->view('error');
+            //Route::get('graph/0.5', 'GraphController@home')->middleware('auth');
+        }
         return parent::render($request, $exception);
     }
 

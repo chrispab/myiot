@@ -5,15 +5,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        {{-- <title>myiot</title> --}}
-
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet" type="text/css">
 
-        {{-- <meta name="viewport" content="width=device-width, initial-scale=1"> --}}
-        <!-- jQuery library -->
-        {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> --}}
         <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 
         <!-- bootstrap Latest compiled and minified CSS -->
@@ -51,9 +46,13 @@
                    <li class="dropdown">
                       <a class="dropdown-toggle" data-toggle="dropdown" href="#">Graphs <span class="caret"></span></a>
                       <ul class="dropdown-menu">
-                        <li><a href="/graph/0.5">30 Mins</a></li>
-                        <li><a href="/graph/1.0">1 Hour</a></li>
-                        <li><a href="/graph/2.0">2 Hours</a></li>
+                        <li><a href="./0.5">30 Mins</a></li>
+                        <li><a href="./1.0">1 Hour</a></li>
+                        <li><a href="./2.0">2 Hours</a></li>
+                        <li><a href="./4.0">4 Hours</a></li>
+                        <li><a href="./8.0">2 Hours</a></li>
+                        <li><a href="./12.0">12 Hours</a></li>
+                        <li><a href="./24.0">24 Hours</a></li>
                       </ul>
                     </li>
                    <li><a href="#">Settings</a></li>

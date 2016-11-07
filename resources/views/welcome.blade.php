@@ -1,10 +1,10 @@
-@extends('layout')
+@extends('layouts.app')
+
 @section('head')
   <title>MyIoT</title>
-
 @stop
 
-      @section('content')
+@section('content')
 
         <div class="flex-center position-ref full-height">
 
@@ -20,10 +20,10 @@
                     MyIoT
                 </div>
 
-                <div class="links">
+                {{-- <div class="links">
                     <a href="graph/0.5">Graph</a>
 
-                </div>
+                </div> --}}
             </div>
         </div>
 @stop
