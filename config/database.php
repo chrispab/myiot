@@ -54,6 +54,19 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_DATABASE', 'sensordata_db'),
+            'username' => env('DB_USERNAME', 'myiot'),
+            'password' => env('DB_PASSWORD', 'myiot'),
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+        'rpimysql' => [
+            'driver' => 'mysql',
             'host' => env('DB_HOST', '192.168.0.153'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'sensordata_db'),
@@ -65,7 +78,6 @@ return [
             'strict' => true,
             'engine' => null,
         ],
-
         'pcdmysql' => [
             'driver' => 'mysql',
             'host' => env('DB_HOST', '192.168.0.155'),

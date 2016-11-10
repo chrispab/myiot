@@ -9,6 +9,11 @@ use App\Exceptions\Handler;
 
 class Graph2Controller extends Controller
 {
+    public function __construct()
+{
+    $this->middleware('auth');
+}
+
     public function home($hours) {
         $minutes = $hours * 60;
         //try {
@@ -32,6 +37,10 @@ class Graph2Controller extends Controller
         $tmax = $tmax[0]->temperature;
         $tmin = DB::connection('pcdmysql')->select('SELECT MIN(temperature) AS temperature from thdata where sample_dt > ?', [$start_time_str]);
         $tmin = $tmin[0]->temperature;
+        //SELECT fields FROM table ORDER BY id DESC LIMIT 1;
+        $temp_now = DB::connection('pcdmysql')->select('SELECT temperature AS temperature from thdata ORDER BY id DESC LIMIT 1');
+        $temp_now = $temp_now[0]->temperature;
+
         $tSPhi = 24.0;
         $tSPlo = 21.0;
         $settings = [
@@ -39,6 +48,7 @@ class Graph2Controller extends Controller
             'tSPlo' => $tSPlo,
             'tmax' => $tmax,
             'tmin'=> $tmin,
+            'temp_now'=> $temp_now,
             'tlast_sample' => $tlast_sample,
             'zone' => 'Zone 2'
         ];

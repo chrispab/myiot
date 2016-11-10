@@ -46,7 +46,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($exception instanceof \PDOException) {
-            return Redirect::back();
+            return redirect()->back()->with('message', 'Refreshing');;
 
             ////return redirect('graph/0.5');
 

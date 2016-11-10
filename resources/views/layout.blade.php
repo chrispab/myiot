@@ -39,6 +39,7 @@
                  </button>
                  <a class="navbar-brand" href="/">MyIoT</a>
                </div>
+
                <div class="collapse navbar-collapse" id="myNavbar">
                  <ul class="nav navbar-nav">
                    <li ><a href="/">Home</a></li>
@@ -46,11 +47,12 @@
                    <li class="dropdown">
                       <a class="dropdown-toggle" data-toggle="dropdown" href="#">Graphs <span class="caret"></span></a>
                       <ul class="dropdown-menu">
+                        <li><a href="./0.25">15 Mins</a></li>
                         <li><a href="./0.5">30 Mins</a></li>
                         <li><a href="./1.0">1 Hour</a></li>
                         <li><a href="./2.0">2 Hours</a></li>
                         <li><a href="./4.0">4 Hours</a></li>
-                        <li><a href="./8.0">2 Hours</a></li>
+                        <li><a href="./8.0">8 Hours</a></li>
                         <li><a href="./12.0">12 Hours</a></li>
                         <li><a href="./24.0">24 Hours</a></li>
                       </ul>
@@ -92,5 +94,5 @@
          <div class="container">
            @yield('content')
           </div>
-    </body>
+</body>
 </html>

@@ -1,5 +1,5 @@
 
-@extends('layout')
+@extends('layouts.app')
 
 @section('head')
     <script type="text/JavaScript">
@@ -8,7 +8,7 @@
 </script>
 <script type="text/JavaScript">
     function timedRefresh(timeoutPeriod) {
-        setTimeout("location.reload(true);",timeoutPeriod);
+        setTimeout("location.assign(location.href);",timeoutPeriod);
     }
 </script>
 <script>
@@ -27,32 +27,23 @@ $(document).ready(function(){
 @section('content')
   <div class="row">
     <div class="col-md-12">
-
-        {{-- <div class="dropdown">
-         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Time Period
-         <span class="caret"></span></button>
-         <ul class="dropdown-menu">
-             <li><a href="0.25" hours-range='0.25'>15 Mins</a></li>
-           <li><a href="0.5" hours-range='0.5'>30 Mins</a></li>
-           <li><a href="1.0" hours-range='1.0'>1 Hour</a></li>
-           <li><a href="2.0" hours-range='2.0'>2 Hours</a></li>
-           <li><a href="12.0" hours-range='12.0'>12 Hours</a></li>
-           <li><a href="24" hours-range='24'>1 Day</a></li>
-           <li><a href="99999" hours-range='99999'>All</a></li>
-         </ul>
-        </div --}}
-
 </div>
 
 
 <h4 class="text-center">{{$settings['zone']}} - {{$hours}} hours</h4>
 <p id="chart" class="text-center">Just a moment...Processing Data</p>
-<h6>Samples: {{count($samples)}}</h6>
-<h6>Load Time:<div class="loadtime"style="border: solid 1px #ccc; display: inline-block;"></div>
-     seconds</h6>
-<h6>last sample time: {{$settings['tlast_sample']}}</h6>
-<h6>tmax: {{$settings['tmax']}}, tmin: {{$settings['tmin']}} - tSPhi: {{$settings['tSPhi']}}, tSPlo; {{$settings['tSPlo']}}</h6>
 
+<h6 class="text-center">Samples: {{count($samples)}}</h6>
+<h6 class="text-center">Load Time:<div class="loadtime"style="border: solid 1px #ccc; display: inline-block;"></div>
+     seconds </h6>
+
+<h6 class="text-center">Last sample time: {{$settings['tlast_sample']}} </h6>
+
+<h6 class="text-center">temp - min: {{$settings['tmin']}}, max: {{$settings['tmax']}}, now: {{$settings['temp_now']}}, - tSPhi: {{$settings['tSPhi']}}, tSPlo; {{$settings['tSPlo']}}</h6>
+@if ( session()->has('message') )
+    <h6 class="text-center"><span class="glyphicon glyphicon-refresh"></span> {{ session()->get('message') }} <span class="glyphicon glyphicon-refresh"></span>
+    </h6>
+@endif
 
 <?php
 $humibase = 10;
@@ -195,7 +186,7 @@ var chart = c3.generate({
         var endTime = (new Date()).getTime();
         var millisecondsLoading = endTime - startTime;
         $('.loadtime').html(millisecondsLoading/1000);
-        timedRefresh((millisecondsLoading) + 5000);
+        timedRefresh((millisecondsLoading) + 10000);
     });
 </script>
 @stop
