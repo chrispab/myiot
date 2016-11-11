@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name') }}</title>
+    <!-- <title>{{ config('app.name') }}</title> -->
 <link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Exo" rel="stylesheet" type="text/css">
     <!-- Styles -->

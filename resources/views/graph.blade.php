@@ -186,7 +186,7 @@ var chart = c3.generate({
         var endTime = (new Date()).getTime();
         var millisecondsLoading = endTime - startTime;
         $('.loadtime').html(millisecondsLoading/1000);
-        timedRefresh((millisecondsLoading) + 10000);
+        timedRefresh((millisecondsLoading) + 15000);
     });
 </script>
 @stop
