@@ -43,13 +43,13 @@
         <div class="col-sm-3">
             <p>Zone 1</p>
             <div class="links">
-                <a href="graph/0.5">Zone 1 Graph</a>
+                <a href="graph/1/0.5">Zone 1 Graph</a>
             </div>
         </div>
         <div class="col-sm-3">
             <p>Zone 2</p>
             <div class="links">
-                <a href="graph2/0.5">Zone 2 Graph</a>
+                <a href="graph/2/0.5">Zone 2 Graph</a>
             </div>
         </div>
         <div class="col-sm-3">

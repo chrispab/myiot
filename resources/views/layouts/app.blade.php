@@ -9,8 +9,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- <title>{{ config('app.name') }}</title> -->
-<link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet" type="text/css">
-<link href="https://fonts.googleapis.com/css?family=Exo" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Exo" rel="stylesheet" type="text/css">
     <!-- Styles -->
     {{-- <link href="/css/app.css" rel="stylesheet"> --}}
     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
@@ -35,7 +35,7 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
     <link href="//cdnjs.cloudflare.com/ajax/libs/c3/0.1.29/c3.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="/css/origstyles.css">
-
+<link rel="icon" type="image/png" href="/favicon.png"/>
     @yield('head')
 </head>
 <body>

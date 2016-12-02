@@ -12,8 +12,9 @@ Route::get('/', function () {
 })->middleware('auth');
 
 
-Route::get('graph/{hours}', 'GraphController@home')->middleware('auth');
-Route::get('graph2/{hours}', 'Graph2Controller@home')->middleware('auth');
+//Route::get('graph/{hours}', 'GraphController@home')->middleware('auth');
+//Route::get('graph2/{hours}', 'Graph2Controller@home')->middleware('auth');
+Route::get('graph/{zone}/{hours}', 'GraphZoneController@home')->middleware('auth');
 
 Route::get('/dashboard', 'DashboardController@home')->middleware('auth');
 

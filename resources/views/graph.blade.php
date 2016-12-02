@@ -2,7 +2,7 @@
 @extends('layouts.app')
 
 @section('head')
-    <script type="text/JavaScript">
+<script type="text/JavaScript">
     var startTime = (new Date()).getTime();
     var timeoutPeriod = 45000;
 </script>
@@ -12,33 +12,28 @@
     }
 </script>
 <script>
-$(document).ready(function(){
-    $("button").click(function(){
-        $.get('/test', function(){
-            alert('response');
+    $(document).ready(function(){
+        $("button").click(function(){
+            $.get('/test', function(){
+                alert('response');
+            });
         });
     });
-});
 </script>
 
-  <title>MyIoT - {{$settings['zone']}} Graph - {{$hours}} Hours</title>
+<title>MyIoT - {{$settings['zone']}} Graph - {{$hours}} Hours</title>
 @stop
 
 @section('content')
-  <div class="row">
+<div class="row">
     <div class="col-md-12">
 </div>
 
-
 <h4 class="text-center">{{$settings['zone']}} - {{$hours}} hours</h4>
 <p id="chart" class="text-center">Just a moment...Processing Data</p>
-
 <h6 class="text-center">Samples: {{count($samples)}}</h6>
-<h6 class="text-center">Load Time:<div class="loadtime"style="border: solid 1px #ccc; display: inline-block;"></div>
-     seconds </h6>
-
+<h6 class="text-center">Render Time:<div class="loadtime"style="border: solid 1px #ccc; display: inline-block;"></div> seconds </h6>
 <h6 class="text-center">Last sample time: {{$settings['tlast_sample']}} </h6>
-
 <h6 class="text-center">temp - min: {{$settings['tmin']}}, max: {{$settings['tmax']}}, now: {{$settings['temp_now']}}, - tSPhi: {{$settings['tSPhi']}}, tSPlo; {{$settings['tSPlo']}}</h6>
 @if ( session()->has('message') )
     <h6 class="text-center"><span class="glyphicon glyphicon-refresh"></span> {{ session()->get('message') }} <span class="glyphicon glyphicon-refresh"></span>
@@ -46,20 +41,20 @@ $(document).ready(function(){
 @endif
 
 <?php
-$humibase = 10;
-$height = 10;
+$base = 10;
+$height = 4;
 $hval = 1;
 $tspan = 2;
-$heaterOFFval = 0 + $humibase;
-$heaterONheight = $height+(1*$hval);
-$ventOFFval = 0 + $humibase;
-$ventONheight = ($height+(2*$hval)) / 1.5;
-$fanOFFval = 0 + $humibase;
+$heaterOFFval = $base;
+$heaterONheight = $height+(1*$hval)+1;
+$ventOFFval = $base;
+$ventONheight = ($height+(1*$hval))*0.8;
+$fanOFFval = $base;
 $fanONheight = $height/2;
 ?>
 
 <script>
-var humibase = 10;
+//var base = 10;
 
 var timeFormat = 'YYYY-MM-DD HH:mm:ss';
 
@@ -142,7 +137,7 @@ var chart = c3.generate({
                 position: 'outer-middle'
             },
             max: 90,
-            min: {{$humibase}},
+            min: {{$base}},
             padding: {top:0, bottom:0}
         },
         y2: {
