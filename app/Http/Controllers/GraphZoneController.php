@@ -29,7 +29,7 @@ class GraphZoneController extends Controller
         }
         $minutes = $hours * 60;
                 //try {
-            $last_record_time = DB::connection($db_conn_str)->select('SELECT sample_dt  FROM thdata ORDER BY id DESC LIMIT 1');
+        $last_record_time = DB::connection($db_conn_str)->select('SELECT sample_dt  FROM thdata ORDER BY id DESC LIMIT 1');
         //} catch (\PDOException $e) {
             //show db error message/page
         //    return view('home');
@@ -44,7 +44,7 @@ class GraphZoneController extends Controller
 
         //$time_diff_string = "2016-10-09 17:02:11";
         $start_time_str =  $start_time->format('Y-m-d H:i:s');
-            $samples = DB::connection($db_conn_str)->select('select * from thdata where sample_dt > ?', [$start_time_str]);
+        $samples = DB::connection($db_conn_str)->select('select * from thdata where sample_dt > ?', [$start_time_str]);
 
         $tmax = DB::connection($db_conn_str)->select('SELECT MAX(temperature) AS temperature from thdata where sample_dt > ?', [$start_time_str]);
         $tmax = $tmax[0]->temperature;
