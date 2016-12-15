@@ -23,13 +23,218 @@ $.ajaxSetup({
 <script>
     $(document).ready(function(){
         $("#mybutton").click(function(){
-          alert("mybutton clicked");
-                   $.post('/test', function(result){
-                       alert('response field: ' + result.response);
-                   });
+          // alert("mybutton clicked");
+                   $.post('/getajaxgraphdata/1/0.5', function(response){
+
+
+                     console.log("my object: %o", response);
+                     console.dir(response);
+
+                     var info = response.samples[0].sample_dt;
+                     //get all sample_dt as string
+                     var sample_dt_all = "'time'";
+                     var i;
+                     for (i = 0; i < response.samples.length; i++) {
+                        sample_dt_all += ', \''+ response.samples[i].sample_dt + '\'';
+                      }
+                      //sample_dt_all = sample_dt_all.substring(1, sample_dt_all.length-1);
+                      //sample_dt_all = 'time' + sample_dt_all;
+                      console.log(sample_dt_all.toString());
+
+                      //try creating obect and passing to chart
+                      var obj = {};
+                      var time = [];
+                      time.push("time");
+                      var i;
+                      for (i = 0; i < response.samples.length; i++) {
+                         time.push( response.samples[i].sample_dt);
+                       }
+                       console.log(time);
+
+                       var temperature = [];
+                                             temperature.push("temperature");
+                       for (i = 0; i < response.samples.length; i++) {
+                          temperature.push(response.samples[i].temperature);
+                        }
+
+                        var humidity = [];
+                        humidity.push("humidity");
+                        for (i = 0; i < response.samples.length; i++) {
+                           humidity.push( response.samples[i].humidity);
+                         }
+
+
+                         obj["time"]=time;
+                         obj["temperature"]=temperature;
+                         obj["humidity"]=humidity;
+
+                      //get all temperature as string
+                      var temperature_all = "'temperature'";
+                      var i;
+                      for (i = 0; i < response.samples.length; i++) {
+                         temperature_all += ', '+ response.samples[i].temperature;
+                       }
+                       //temperature_all = temperature_all.substring(1, temperature_all.length-1);
+
+                       //get all humidity as string
+                       var humidity_all = "'humidity'";
+                       var i;
+                       for (i = 0; i < response.samples.length; i++) {
+                          humidity_all += ', '+ response.samples[i].humidity;
+                        }
+                        //humidity_all = humidity_all.substring(1, humidity_all.length-1);
+
+                        //get all heaterstate as string
+                        var heaterstate_all = "";
+                        var i;
+                        for (i = 0; i < response.samples.length; i++) {
+                           heaterstate_all += response.samples[i].heaterstate + ", ";
+                         }
+                         //get all heaterstate as string
+                         var ventstate_all = "";
+                         var i;
+                         for (i = 0; i < response.samples.length; i++) {
+                            ventstate_all += response.samples[i].ventstate + ", ";
+                          }
+                          //get all heaterstate as string
+                          var fanstate_all = "";
+                          var i;
+                          for (i = 0; i < response.samples.length; i++) {
+                             fanstate_all += response.samples[i].fanstate + ", ";
+                           }
+
+                       //alert('response field: ' + sample_dt_all + temperature_all + humidity_all + heaterstate_all + ventstate_all+ fanstate_all);
+                      //  console.log(sample_dt_all, temperature_all, humidity_all,heaterstate_all+ventstate_all+fanstate_all);
+                      //  //get data and populate chart info data
+                      //  //process time from sample_dt fields
+                      //  //var times = response.samples.sample_dt;
+                      //  console.log(sample_dt_all.toString());
+                      //  console.log(temperature_all.toString());
+                      //  console.log(humidity_all.toString());
+                       //console.log(substring(1, humidity_all.toString(), -1));
+                       console.dir(obj);
+
+                       chart.load({
+                         columns: [
+                           time,
+                           temperature,
+                           humidity
+                         ]
+                       });
+                   },"JSON");
         });
     });
 
+    setInterval( getgraphdata, 5*1000 );
+
+    function getgraphdata(){
+      // alert("mybutton clicked");
+               $.post('/getajaxgraphdata/1/0.5', function(response){
+
+
+                 //console.log("my object: %o", response);
+                 //console.dir(response);
+
+                 //var info = response.samples[0].sample_dt;
+                 //get all sample_dt as string
+                //  var sample_dt_all = "'time'";
+                //  var i;
+                //  for (i = 0; i < response.samples.length; i++) {
+                //     sample_dt_all += ', \''+ response.samples[i].sample_dt + '\'';
+                //   }
+                //   //sample_dt_all = sample_dt_all.substring(1, sample_dt_all.length-1);
+                //   //sample_dt_all = 'time' + sample_dt_all;
+                //   console.log(sample_dt_all.toString());
+
+                  //try creating obect and passing to chart
+                  var obj = {};
+                  var time = [];
+                  time.push("time");
+                  var i;
+                  for (i = 0; i < response.samples.length; i++) {
+                     time.push( response.samples[i].sample_dt);
+                   }
+                   console.log(time);
+
+                   var temperature = [];
+                   temperature.push("temperature");
+                   for (i = 0; i < response.samples.length; i++) {
+                      temperature.push(response.samples[i].temperature);
+                    }
+
+                    var humidity = [];
+                    humidity.push("humidity");
+                    for (i = 0; i < response.samples.length; i++) {
+                       humidity.push( response.samples[i].humidity);
+                     }
+
+                     var heater = [];
+                     heater.push("heater");
+                     for (i = 0; i < response.samples.length; i++) {
+                        heater.push( response.samples[i].heaterstate * 20);
+                      }
+
+                     obj["time"]=time;
+                     obj["temperature"]=temperature;
+                     obj["humidity"]=humidity;
+                     obj["heater"]=heater;
+
+                  // //get all temperature as string
+                  // var temperature_all = "'temperature'";
+                  // var i;
+                  // for (i = 0; i < response.samples.length; i++) {
+                  //    temperature_all += ', '+ response.samples[i].temperature;
+                  //  }
+                  //  //temperature_all = temperature_all.substring(1, temperature_all.length-1);
+                  //
+                  //  //get all humidity as string
+                  //  var humidity_all = "'humidity'";
+                  //  var i;
+                  //  for (i = 0; i < response.samples.length; i++) {
+                  //     humidity_all += ', '+ response.samples[i].humidity;
+                  //   }
+                  //   //humidity_all = humidity_all.substring(1, humidity_all.length-1);
+                  //
+                  //   //get all heaterstate as string
+                  //   var heaterstate_all = "";
+                  //   var i;
+                  //   for (i = 0; i < response.samples.length; i++) {
+                  //      heaterstate_all += response.samples[i].heaterstate + ", ";
+                  //    }
+                  //    //get all heaterstate as string
+                  //    var ventstate_all = "";
+                  //    var i;
+                  //    for (i = 0; i < response.samples.length; i++) {
+                  //       ventstate_all += response.samples[i].ventstate + ", ";
+                  //     }
+                  //     //get all heaterstate as string
+                  //     var fanstate_all = "";
+                  //     var i;
+                  //     for (i = 0; i < response.samples.length; i++) {
+                  //        fanstate_all += response.samples[i].fanstate + ", ";
+                  //      }
+
+                   //alert('response field: ' + sample_dt_all + temperature_all + humidity_all + heaterstate_all + ventstate_all+ fanstate_all);
+                  //  console.log(sample_dt_all, temperature_all, humidity_all,heaterstate_all+ventstate_all+fanstate_all);
+                  //  //get data and populate chart info data
+                  //  //process time from sample_dt fields
+                  //  //var times = response.samples.sample_dt;
+                  //  console.log(sample_dt_all.toString());
+                  //  console.log(temperature_all.toString());
+                  //  console.log(humidity_all.toString());
+                   //console.log(substring(1, humidity_all.toString(), -1));
+                   console.dir(obj);
+
+                   chart.load({
+                     columns: [
+                       time,
+                       temperature,
+                       humidity,
+                       heater
+                     ]
+                   });
+               },"JSON");
+    }
     // $(document).ready(function(){
     //     $("mybutton").click(function(){
     //         $.get('/test', function(){
@@ -90,31 +295,19 @@ var chart = c3.generate({
         x : 'time',
         xFormat : '%Y-%m-%d %H:%M:%S',
         columns: [
-            ['time' @foreach ($samples as $line)
-                      ,"{{$line->sample_dt}}"
-                  @endforeach
-            ],
-            ['temperature'@foreach ($samples as $line)
-                          ,{{$line->temperature}}
-                        @endforeach
-            ],
-            ['humidity'@foreach ($samples as $line)
-                          ,{{$line->humidity}}
-                        @endforeach
-            ],
-            ['heater'@foreach ($samples as $line)
-                          ,{{ $heaterOFFval + ($line->heaterstate * $heaterONheight) }}
-                        @endforeach
-            ],
-
-            ['vent'@foreach ($samples as $line)
-                          ,{{ $ventOFFval + ($line->ventstate * $ventONheight) }}
-                        @endforeach
-            ],
-            ['fan'@foreach ($samples as $line)
-                          ,{{ $fanOFFval + ($line->fanstate * $fanONheight) }}
-                        @endforeach
-            ]
+            // ['time', '2016-12-15 16:10:28'
+            // ],
+            // ['temperature', 6
+            // ],
+            // ['humidity', 7
+            // ],
+            // ['heater',1
+            // ],
+            //
+            // ['vent', 2
+            // ],
+            // ['fan', 1
+            // ]
 
         ],
         colors: {
@@ -131,8 +324,7 @@ var chart = c3.generate({
         },
         axes: {
             humidity: 'y',
-            temperature: 'y2',
-            proctemp: 'y2'
+            temperature: 'y2'
         }
     },
     legend: {
@@ -207,7 +399,7 @@ var chart = c3.generate({
         var endTime = (new Date()).getTime();
         var millisecondsLoading = endTime - startTime;
         $('.loadtime').html(millisecondsLoading/1000);
-        timedRefresh((millisecondsLoading) + 15000);
+        // timedRefresh((millisecondsLoading) + 15000);
     });
 </script>
 <script>

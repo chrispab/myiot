@@ -32,3 +32,18 @@ dropdown
    <li><a href="#">JavaScript</a></li>
  </ul>
 </div>
+
+  [
+//   ['time', '2016-12-15 16:10:26', '2016-12-15 16:10:28', '2016-12-15 16:11:03', '2016-12-15 16:11:05'],
+// ['temperature', 30, 14, 25, 15],
+//   ['humidity', 22, 20, 15, 50]
+//   [sample_dt_all.toString()],
+// [temperature_all.toString()],
+// [humidity_all.toString()]
+//   [JSON.parse(sample_dt_all.substring(1, sample_dt_all.length-1)],
+// [temperature_all.substring(1, temperature_all.length-1)],
+// [humidity_all.substring(1, humidity_all.length-1)]
+// [sample_dt_all.replace(/["]+/g, '')],
+// [temperature_all.replace(/["]+/g, '')],
+// [humidity_all.replace(/["]+/g, '')]
+//    ]
