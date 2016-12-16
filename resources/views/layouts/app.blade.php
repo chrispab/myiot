@@ -64,7 +64,7 @@
                         <li ><a href="/">Welcome Guest</a></li>
                     @else
                         <li><a href="/dashboard">Dashboard</a></li>
-                        @if (\Request::is('graph*/*'))
+                        @if (\Request::is('*graph*/*'))
                             <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Graphs <span class="caret"></span></a>
                             <ul class="dropdown-menu">
