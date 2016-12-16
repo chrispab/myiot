@@ -31,7 +31,7 @@ $(function() {
   getgraphdata();
 
 });
- setInterval(getgraphdata, 10 * 1000);
+ setInterval(getgraphdata, 5 * 1000);
 
 function getgraphdata() {
     //get last param - hours
@@ -79,12 +79,12 @@ function getgraphdata() {
         var vent = [];
         vent.push("vent");
         for (i = 0; i < response.samples.length; i++) {
-            vent.push(response.samples[i].ventstate * 17);
+            vent.push(response.samples[i].ventstate * 19);
         }
         var fan = [];
         fan.push("fan");
         for (i = 0; i < response.samples.length; i++) {
-            fan.push(response.samples[i].fanstate * 15);
+            fan.push(response.samples[i].fanstate * 18);
         }
         obj["time"] = time;
         obj["temperature"] = temperature;
@@ -126,9 +126,10 @@ function getgraphdata() {
                 fan
             ]
         });
-    }, "JSON");
 
-    endTime = new Date();
+
+    }, "JSON");
+        endTime = new Date();
     millisecondsLoading = endTime.getTime() - startTime.getTime();
     $('.loadtime').html(millisecondsLoading);
 };
@@ -149,7 +150,7 @@ function getgraphdata() {
 <h4 class="text-center">{{$settings['zone']}} - {{$hours}} hours</h4>
 <p id="chart" class="text-center">Just a moment...Processing Data</p>
 <h6 class="text-center" id="totalsamples">Samples: {{count($samples)}}</h6>
-<h6 class="text-center">Render Time:<div class="loadtime"style="border: solid 1px #ccc; display: inline-block;"></div> milliseconds </h6>
+<h6 class="text-center">Render Time: <div class="loadtime"style="border: solid 1px #ccc; display: inline-block;"></div> milliseconds </h6>
 <h6 class="text-center" id="lastsampletime">Last sample time: {{$settings['tlast_sample']}} </h6>
 <h6 class="text-center" id="temps">temp - min: {{$settings['tmin']}}, max: {{$settings['tmax']}}, now: {{$settings['temp_now']}}, - tSPhi: {{$settings['tSPhi']}}, tSPlo; {{$settings['tSPlo']}}</h6>
 @if ( session()->has('message') )
