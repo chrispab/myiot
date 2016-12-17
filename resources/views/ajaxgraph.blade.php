@@ -11,18 +11,11 @@ $.ajaxSetup({
 });
 </script>
 
-<script type="text/JavaScript">
-    var startTime = (new Date()).getTime();
-
-    var timeoutPeriod = 45000;
-</script>
-<script type="text/JavaScript">
-    function timedRefresh(timeoutPeriod) {
-        setTimeout("location.assign(location.href);",timeoutPeriod);
-    }
-</script>
+<!-- <script src="//code.jquery.com/jquery.min.js"></script> -->
+<script src="/js/loadingoverlay.min.js"></script>
 
 <script>
+
 $(document).ready("#mybutton").click(function() {
       getgraphdata();
 });
@@ -31,7 +24,7 @@ $(function() {
   getgraphdata();
 
 });
- setInterval(getgraphdata, 5 * 1000);
+ setInterval(getgraphdata, 15 * 1000);
 
 function getgraphdata() {
     //get last param - hours
@@ -46,7 +39,10 @@ function getgraphdata() {
 
 
     startTime = new Date();
-
+    //$('#loaderImage').show();
+    $("#chart").LoadingOverlay("show", {
+    color           : "rgba(255, 255, 255, 0.0)"
+});
     $.post(postAddr, function(response) {
 
         var obj = {};
@@ -116,6 +112,7 @@ function getgraphdata() {
         document.getElementById("totalsamples").innerHTML = 'Total Samples: ' + totalsamples;
 
         //console.log(pathArray);
+        //chart.unload();
         chart.load({
             columns: [
                 time,
@@ -126,12 +123,18 @@ function getgraphdata() {
                 fan
             ]
         });
+    }, "JSON")
 
+    .done(function() {
+  //alert( "second success" );
+              //$('#loaderImage').hide();
+              $("#chart").LoadingOverlay("hide");
 
-    }, "JSON");
-        endTime = new Date();
-    millisecondsLoading = endTime.getTime() - startTime.getTime();
-    $('.loadtime').html(millisecondsLoading);
+  endTime = new Date();
+  millisecondsLoading = endTime.getTime() - startTime.getTime();
+  $('.loadtime').html(millisecondsLoading);
+});
+
 };
 </script>
 
@@ -148,7 +151,9 @@ function getgraphdata() {
 </div>
 
 <h4 class="text-center">{{$settings['zone']}} - {{$hours}} hours</h4>
-<p id="chart" class="text-center">Just a moment...Processing Data</p>
+
+<div id="chart" class="text-center">Just a moment...Processing Data</div>
+
 <h6 class="text-center" id="totalsamples">Samples: {{count($samples)}}</h6>
 <h6 class="text-center">Render Time: <div class="loadtime"style="border: solid 1px #ccc; display: inline-block;"></div> milliseconds </h6>
 <h6 class="text-center" id="lastsampletime">Last sample time: {{$settings['tlast_sample']}} </h6>
@@ -273,19 +278,6 @@ var chart = c3.generate({
 });
 
 </script>
-<script>
-    $(window).load(function () {
-        var endTime = (new Date()).getTime();
-        var millisecondsLoading = endTime - startTime;
-        $('.loadtime').html(millisecondsLoading);
-        // timedRefresh((millisecondsLoading) + 15000);
-    });
-</script>
-<script>
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
-</script>
+
+
 @stop
