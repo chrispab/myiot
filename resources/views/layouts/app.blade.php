@@ -11,6 +11,8 @@
     <!-- <title>{{ config('app.name') }}</title> -->
     <link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Exo" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Mako" rel="stylesheet" type="text/css">
+
     <!-- Styles -->
     {{-- <link href="/css/app.css" rel="stylesheet"> --}}
     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
@@ -40,7 +42,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-default">
+        <nav class="navbar navbar-inverse">
             <div class="container">
                 <div class="navbar-header">
                     <!-- Collapsed Hamburger -->
@@ -115,7 +117,7 @@
             </div>
         </nav>
 
-        <div class="container">
+        <div class="container-fluid">
           @yield('content')
          </div>
     </div>
