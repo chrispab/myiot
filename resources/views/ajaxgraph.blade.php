@@ -15,6 +15,12 @@ $.ajaxSetup({
 <script src="/js/loadingoverlay.min.js"></script>
 
 <script>
+setInterval(getgraphdata, 15 * 1000);
+var zone=11;
+var hours=333;
+var tempmin;
+var tempmax;
+var tempnow;
 
 $(document).ready("#mybutton").click(function() {
       getgraphdata();
@@ -24,25 +30,24 @@ $(function() {
   getgraphdata();
 
 });
- setInterval(getgraphdata, 15 * 1000);
 
 function getgraphdata() {
     //get last param - hours
     var pathArray = window.location.pathname.split('/');
-    var zone = pathArray[pathArray.length - 2];
-    var hours = pathArray[pathArray.length - 1];
+    zone = pathArray[pathArray.length - 2];
+    hours = pathArray[pathArray.length - 1];
     var postAddr = '/getajaxgraphdata/' + zone.toString() + '/' + hours.toString();
     //console.log(postAddr);
     var millisecondsLoading;
     var startTime;
     var endTime;
 
-
     startTime = new Date();
     //$('#loaderImage').show();
     $("#chart").LoadingOverlay("show", {
-    color           : "rgba(255, 255, 255, 0.0)"
-});
+      color : "rgba(255, 255, 255, 0.0)"
+    });
+
     $.post(postAddr, function(response) {
 
         var obj = {};
@@ -52,26 +57,21 @@ function getgraphdata() {
         for (i = 0; i < response.samples.length; i++) {
             time.push(response.samples[i].sample_dt);
         }
-        //console.log(time);
-
         var temperature = [];
         temperature.push("temperature");
         for (i = 0; i < response.samples.length; i++) {
             temperature.push(response.samples[i].temperature);
         }
-
         var humidity = [];
         humidity.push("humidity");
         for (i = 0; i < response.samples.length; i++) {
             humidity.push(response.samples[i].humidity);
         }
-
         var heater = [];
         heater.push("heater");
         for (i = 0; i < response.samples.length; i++) {
             heater.push(response.samples[i].heaterstate * 20);
         }
-
         var vent = [];
         vent.push("vent");
         for (i = 0; i < response.samples.length; i++) {
@@ -87,7 +87,8 @@ function getgraphdata() {
         obj["humidity"] = humidity;
         obj["heater"] = heater;
 
-        //console.dir(obj);
+
+        document.getElementById("title").innerHTML = "MyIoT - Zone: "+ zone +" Graph: "+hours+" hours";
 
         //update last sample time text
         document.getElementById("lastsampletime").innerHTML = "Last sample time: " + response.samples[response.samples.length - 1].sample_dt;
@@ -101,9 +102,9 @@ function getgraphdata() {
         temperaturenumbers = tempsstring.split(',').map(parseFloat); // [1, 2, 5, 4, 3]
         //console.log(temperaturenumbers);
 
-        var tempmin = Math.min(...temperaturenumbers);
-        var tempmax = Math.max(...temperaturenumbers);
-        var tempnow = temperaturenumbers[temperaturenumbers.length - 1];
+        tempmin = Math.min(...temperaturenumbers);
+        tempmax = Math.max(...temperaturenumbers);
+        tempnow = temperaturenumbers[temperaturenumbers.length - 1];
         temps = "Temp min: " + tempmin.toString() + ", Max: " + tempmax.toString() + ", Now: " + tempnow.toString();
         document.getElementById("temps").innerHTML = temps;
         //  document.getElementById("tempmax").innerHTML = ", Max: " + tempmax;
@@ -138,28 +139,35 @@ function getgraphdata() {
 };
 </script>
 
-
-<title>MyIoT - {{$settings['zone']}} Graph - {{$hours}} Hours</title>
+<title id="title">MyIoT Zone - Graph - Hours</title>
 @stop
 
 @section('content')
-<button type="button" id="mybutton" class="mybutton">Force reload</button>
-
-
 <div class="row">
-    <div class="col-md-12">
-</div>
-
 <h4 class="text-center">{{$settings['zone']}} - {{$hours}} hours</h4>
-
 <div id="chart" class="text-center">Just a moment...Processing Data</div>
 
-<h6 class="text-center" id="totalsamples">Samples: {{count($samples)}}</h6>
-<h6 class="text-center">Render Time: <div class="loadtime"style="border: solid 1px #ccc; display: inline-block;"></div> milliseconds </h6>
-<h6 class="text-center" id="lastsampletime">Last sample time: {{$settings['tlast_sample']}} </h6>
-<h6 class="text-center" id="temps">temp - min: {{$settings['tmin']}}, max: {{$settings['tmax']}}, now: {{$settings['temp_now']}}, - tSPhi: {{$settings['tSPhi']}}, tSPlo; {{$settings['tSPlo']}}</h6>
+<div class="row">
+ <div class="col-sm-4">
+
+ </div>
+ <div class="col-sm-4">
+   <h6 class="text-center" id="totalsamples" style="display: inline-block" >Samples: {{count($samples)}}</h6>
+   <button type="button" class="btn btn-primary btn-xs" id="mybutton" class="mybutton" >Reload graph data</button>
+
+   <h6 class="text-left">Render Time: <div class="loadtime"style="border: solid 1px #ccc; display: inline-block;"></div> milliseconds </h6>
+   <h6 class="text-left" id="lastsampletime">Last sample time: {{$settings['tlast_sample']}} </h6>
+   <h6  class="text-left" id="temps">temp - min: {{$settings['tmin']}}, max: {{$settings['tmax']}}, now: {{$settings['temp_now']}}, - tSPhi: {{$settings['tSPhi']}}, tSPlo; {{$settings['tSPlo']}}</h6>
+ </div>
+ <div class="col-sm-4">
+
+  </div>
+</div>
+</div>
+
 @if ( session()->has('message') )
-    <h6 class="text-center"><span class="glyphicon glyphicon-refresh"></span> {{ session()->get('message') }} <span class="glyphicon glyphicon-refresh"></span>
+    <h6 class="text-center">
+      <span class="glyphicon glyphicon-refresh"></span> {{ session()->get('message') }} <span class="glyphicon glyphicon-refresh"></span>
     </h6>
 @endif
 
@@ -177,8 +185,6 @@ $fanONheight = $height/2;
 ?>
 
 <script>
-//var base = 10;
-
 var timeFormat = 'YYYY-MM-DD HH:mm:ss';
 
 var chart = c3.generate({
@@ -249,19 +255,17 @@ var chart = c3.generate({
                 position: 'outer-middle'
             },
             @if ($settings['tmax'] > $settings['tSPhi'])
-                max: {{$settings['tmax'] +0.5}},
+                max: tempmax +0.5,
             @else
-                max: {{$settings['tSPhi'] + 0.5}},
+                max: {{$settings['tSPhi'] + 1.0}},
             @endif
             @if ($settings['tmin'] < $settings['tSPlo'])
-                min: {{$settings['tmin'] - 0.5}},
+                min: tempmin - 1.0,
             @else
-                min: {{$settings['tSPlo'] - 0.5}},
+                min: {{$settings['tSPlo'] - 1.0}},
             @endif
 
-
-
-            padding: {top:0, bottom:0},
+            padding: {top:10, bottom:10},
         }
     },
     grid: {
@@ -276,8 +280,6 @@ var chart = c3.generate({
         }
     }
 });
-
 </script>
-
 
 @stop
