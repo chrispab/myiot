@@ -15,8 +15,11 @@ $.ajaxSetup({
 $(function() {
   getgraphdata('#chart1',1);
   getgraphdata('#chart2',2);
-  setInterval("getgraphdata('#chart1',1)", 20 * 1000);
-  setInterval("getgraphdata('#chart2',2)", 20 * 1000);
+
+  intID = [0,1,2];
+  window.intID[1] = setInterval("getgraphdata('#chart1',1)", 20 * 1000);
+  window.intID[2] = setInterval("getgraphdata('#chart2',2)", 20 * 1000);
+
   $("#reloadchart1").click(function(){
     getgraphdata('#chart1',1);
   });
@@ -132,10 +135,10 @@ function getgraphdata(chartid='#chart1', zone=1, hours=0.5) {
         console.log(tmaxgraph);
         console.log(tmingraph);
         if (tempmax > tSPHi){
-          tmaxgraph = tempmax +0.5;
+          tmaxgraph = tempmax +0.3;
         }
         if (tempmin < tSPLo){
-          tmingraph = tempmin - 0.5;
+          tmingraph = tempmin - 0.3;
         }
         //console.log(chartid.substring(1));
         //chart.unload();
@@ -224,6 +227,13 @@ function getgraphdata(chartid='#chart1', zone=1, hours=0.5) {
     endTime = new Date();
     millisecondsLoading = endTime.getTime() - startTime.getTime();
     $('.loadtime' + chartid.substring(1) ).html(millisecondsLoading);
+
+    var reload_call = "getgraphdata('" + chartid + "'" + ",zone)";
+    console.log(' reload call:  '+ reload_call);
+    window.clearInterval(window.intID[zone]);
+    var interval_t = "getgraphdata('" + chartid + "',"+ zone + ")";
+    window.intID[zone] = window.setInterval(interval_t, (10 * 1000) + millisecondsLoading);
+
   });
 
 };

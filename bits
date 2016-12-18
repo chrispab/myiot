@@ -1,3 +1,6 @@
+var interval_t = "getgraphdata('" + chartid + "',1)"
+setInterval(interval_t, (20 * 1000) + millisecondsLoading);
+
 @foreach ($samples as $line)
   "{{$line->sample_dt}}"
 @endforeach
