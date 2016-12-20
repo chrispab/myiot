@@ -1,5 +1,5 @@
     html, body {
-        background-color: #637D62;
+        background-color: #466e45;
         color: #222222;
         font-family: 'Mako', sans-serif;
         font-weight: 100;
@@ -9,6 +9,10 @@
 
     .panel-body {
       background-color: #caf4b9;
+
+    }
+    .navbar {
+      /*background-color: #73ba71;*/
 
     }
     .full-height {
