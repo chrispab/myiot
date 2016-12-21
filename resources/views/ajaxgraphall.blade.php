@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('head')
-
 <script>
 $.ajaxSetup({
   headers: {
@@ -15,23 +14,27 @@ $.ajaxSetup({
 @stop
 
 @section('content')
-
 <div class="row">
   <div class="col-md-6">
     <div class="panel panel-success">
-      <div class="panel-heading" id="titlechart1">Panel Heading</div>
+      <div class="panel-heading " id="titlechart1" >Chart Info</div>
       <div class="panel-body" >
         <div id="chart1" class="text-center" ></div>
         <div class="panel-footer">
           <div class="row">
             <div class="col-sm-6">
-              <h6 class="text-left" id="totalsampleschart1"  >Samples: {{count($samples)}} </h6>
+              <h6 class="text-left" id="lastsampletimechart1">Last sample time: </h6>
+              <h6 class="text-left" id="totalsampleschart1"  >Samples: </h6>
               <h6 class="text-left">Render Time: <div class="loadtimechart1"style="display: inline-block;"></div> seconds </h6>
               <button type="button" class="btn btn-primary btn-xs" id="reloadchart1" >Reload graph data</button>
             </div>
+
             <div class="col-sm-6">
-              <h6 class="text-left" id="lastsampletimechart1">Last sample time: {{$settings['tlast_sample']}} </h6>
-              <h6  class="text-left" id="tempschart1">temp - min: {{$settings['tmin']}}, max: {{$settings['tmax']}}, now: {{$settings['temp_now']}}, - tSPhi: {{$settings['tSPhi']}}, tSPlo; {{$settings['tSPlo']}}</h6>
+              <h6  class="text-left" id="tempschart1">Temperatures</h6>
+
+
+              <h6  class="text-left" id="reloadInterval1">Reload Interval</h6>
+              <h6  class="text-left" id="countdown1">countdown</h6>
             </div>
           </div>
         </div>
@@ -47,13 +50,17 @@ $.ajaxSetup({
         <div class="panel-footer">
           <div class="row">
             <div class="col-sm-6">
+              <h6 class="text-left" id="lastsampletimechart2">Last sample time:  </h6>
               <h6 class="text-left" id="totalsampleschart2"  >Samples: </h6>
               <h6 class="text-left">Render Time: <div class="loadtimechart2"style="display: inline-block;"></div> seconds </h6>
               <button type="button" class="btn btn-primary btn-xs" id="reloadchart2" >Reload graph data</button>
             </div>
             <div class="col-sm-6">
-              <h6 class="text-left" id="lastsampletimechart2">Last sample time:  </h6>
-              <h6  class="text-left" id="tempschart2">temp - min: , max: , now: , - tSPhi: , tSPlo; </h6>
+
+              <h6  class="text-left" id="tempschart2">Temperatures</h6>
+              <h6  class="text-left" id="reloadInterval2">Refresh Interval</h6>
+              <h6  class="text-left" id="countdown2">countdown</h6>
+
             </div>
           </div>
         </div>
