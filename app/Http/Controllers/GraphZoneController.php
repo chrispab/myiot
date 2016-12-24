@@ -19,7 +19,11 @@ class GraphZoneController extends Controller
         if ($zone == 1) {
             $db_conn_str = 'rpimysql';
             $tSPhi = 22.5;
+            $tSPhi = DB::connection($db_conn_str)->select('SELECT tempSPLOn  FROM config ORDER BY id DESC LIMIT 1');
+
             $tSPlo = 15.3;
+            $tSPlo = DB::connection($db_conn_str)->select('SELECT tempSPLOff  FROM config ORDER BY id DESC LIMIT 1');
+
         } elseif ($zone == 2) {
             $db_conn_str = 'pcdmysql';
             $tSPhi = 24.0;
@@ -73,9 +77,13 @@ class GraphZoneController extends Controller
     public function ajaxgraph($zone, $hours)
     {
         if ($zone == 1) {
-            $db_conn_str = 'rpimysql';
-            $tSPhi = 22.5;
-            $tSPlo = 15.3;
+          $db_conn_str = 'rpimysql';
+          $tSPhi = 22.5;
+          $tSPhi = DB::connection($db_conn_str)->select('SELECT tempSPLOn  FROM config ORDER BY id DESC LIMIT 1');
+
+          $tSPlo = 15.3;
+          $tSPlo = DB::connection($db_conn_str)->select('SELECT tempSPLOff  FROM config ORDER BY id DESC LIMIT 1');
+
         } elseif ($zone == 2) {
             $db_conn_str = 'pcdmysql';
             $tSPhi = 24.0;
@@ -126,12 +134,15 @@ class GraphZoneController extends Controller
         //return response()->json( compact('samples', 'hours', 'settings'));
         //return json_encode(compact('samples', 'hours', 'settings')) ;
     }
+
     public function ajaxgraphall($zone, $hours)
     {
         if ($zone == 1) {
             $db_conn_str = 'rpimysql';
             $tSPhi = 22.5;
             $tSPlo = 15.3;
+            //$tSPhi = DB::connection($db_conn_str)->select('SELECT tempSPLOn  FROM config ORDER BY id DESC LIMIT 1');
+            //$tSPlo = DB::connection($db_conn_str)->select('SELECT tempSPLOff  FROM config ORDER BY id DESC LIMIT 1');
         } elseif ($zone == 2) {
             $db_conn_str = 'pcdmysql';
             $tSPhi = 24.0;
@@ -140,17 +151,12 @@ class GraphZoneController extends Controller
         $minutes = $hours * 60;
                 //try {
         $last_record_time = DB::connection($db_conn_str)->select('SELECT sample_dt  FROM thdata ORDER BY id DESC LIMIT 1');
-        //} catch (\PDOException $e) {
-            //show db error message/page
-        //    return view('home');
-        //}
 
         $end_time = new \DateTime($last_record_time[0]->sample_dt);
         $tlast_sample = $end_time->format('Y-m-d H:i:s');
 
         //subtract minutes
         $start_time = $end_time->modify('-'.$minutes.' minutes');
-
 
         //$time_diff_string = "2016-10-09 17:02:11";
         $start_time_str =  $start_time->format('Y-m-d H:i:s');
@@ -164,10 +170,10 @@ class GraphZoneController extends Controller
         $temp_now = DB::connection($db_conn_str)->select('SELECT temperature AS temperature from thdata ORDER BY id DESC LIMIT 1');
         $temp_now = $temp_now[0]->temperature;
 
-        $tSPhi = DB::connection($db_conn_str)->select('SELECT temp_1_sp from settings');
-        $tSPhi = $tSPhi[0]->temp_1_sp;
-        $tSPlo = DB::connection($db_conn_str)->select('SELECT temp_0_sp from settings');
-        $tSPlo = $tSPlo[0]->temp_0_sp;
+        // $tSPhi = DB::connection($db_conn_str)->select('SELECT temp_1_sp from settings');
+        // $tSPhi = $tSPhi[0]->temp_1_sp;
+        // $tSPlo = DB::connection($db_conn_str)->select('SELECT temp_0_sp from settings');
+        // $tSPlo = $tSPlo[0]->temp_0_sp;
 
         $settings = [
             'tSPhi' => $tSPhi,
@@ -189,6 +195,15 @@ class GraphZoneController extends Controller
             $db_conn_str = 'rpimysql';
             $tSPhi = 22.5;
             $tSPlo = 15.3;
+            //$tSPhi = DB::connection($db_conn_str)->select('SELECT tempSPLOn  FROM config ORDER BY id DESC LIMIT 1');
+            $tSPhi = DB::connection($db_conn_str)->select('SELECT tempSPLOn from config');
+            $tSPhi = $tSPhi[0]->tempSPLOn;
+            $tSPlo = DB::connection($db_conn_str)->select('SELECT tempSPLOff from config');
+            $tSPlo = $tSPlo[0]->tempSPLOff;
+            //$tSPlo = DB::connection($db_conn_str)->select('SELECT tempSPLOff  FROM config ORDER BY id DESC LIMIT 1');
+            //var_dump(DB::connection($db_conn_str)->select('SELECT tempSPLOn  FROM config ORDER BY id DESC LIMIT 1'));
+            //die();
+
         } elseif ($zone == 2) {
             $db_conn_str = 'pcdmysql';
             $tSPhi = 24.0;
@@ -222,11 +237,12 @@ class GraphZoneController extends Controller
         $temp_now = DB::connection($db_conn_str)->select('SELECT temperature AS temperature from thdata ORDER BY id DESC LIMIT 1');
         $temp_now = $temp_now[0]->temperature;
 
-        $tSPhi = DB::connection($db_conn_str)->select('SELECT temp_1_sp from settings');
-        $tSPhi = $tSPhi[0]->temp_1_sp;
-        $tSPlo = DB::connection($db_conn_str)->select('SELECT temp_0_sp from settings');
-        $tSPlo = $tSPlo[0]->temp_0_sp;
-
+        // $tSPhi = DB::connection($db_conn_str)->select('SELECT temp_1_sp from settings');
+        // $tSPhi = $tSPhi[0]->temp_1_sp;
+        // $tSPlo = DB::connection($db_conn_str)->select('SELECT temp_0_sp from settings');
+        // $tSPlo = $tSPlo[0]->temp_0_sp;
+        // $tSPlo = DB::connection($db_conn_str)->select('SELECT temp_0_sp from settings');
+        // $tSPlo = $tSPlo[0]->temp_0_sp;
         $settings = [
             'tSPhi' => $tSPhi,
             'tSPlo' => $tSPlo,

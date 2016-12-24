@@ -124,6 +124,9 @@ function getgraphdata(chartid = 1, zone = 1, hours = 0.5) {
     temps = "Temp min: " + tempmin.toString() + ", Max: " + tempmax.toString() + ", Now: " + tempnow.toString();
     document.getElementById("tempschart" + chartid).innerHTML = temps;
 
+    tempSettings = "Temp SP Hi: " + tSPHi + ", Lo: " + tSPLo;
+    document.getElementById("tempSettings" + chartid).innerHTML = tempSettings;
+
     var totalsamples = temperaturenumbers.length;
     document.getElementById("totalsampleschart" + chartid).innerHTML = 'Samples: ' + '<span class="badge">' + totalsamples + '</span>';
     document.getElementById("lastsampletimechart" + chartid).innerHTML = "Last sample time: " + response.samples[response.samples.length - 1].sample_dt;
@@ -238,7 +241,7 @@ function getgraphdata(chartid = 1, zone = 1, hours = 0.5) {
     //create string to pass into setinterval call
     var interval_t = "getgraphdata('" + chartid + "'," + zone + ")";
     //set new interval based on last reload time
-    reloadInterval = ((10 * 1000) + (millisecondsLoading * 3));
+    reloadInterval = ((10 * 1000) + (millisecondsLoading * 5));
     var reloadIntervalSeconds =  reloadInterval/1000;
     window.intervalTimerHandle[zone] = window.setInterval(interval_t, reloadInterval);
     document.getElementById("reloadInterval" + chartid).innerHTML = 'Reload Interval: ' + '<span class="badge">' + reloadIntervalSeconds + '</span>' + ' seconds';
