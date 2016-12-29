@@ -104,8 +104,6 @@ function getgraphdata(chartid = 1, zone = 1, hours = 0.5) {
     obj["vent"] = vent;
     obj["fan"] = fan;
 
-    //fill chart titlechart
-    document.getElementById("titlechart" + chartid).innerHTML = "Zone: " + zone + ", " + hours + " hours";
     //update last sample time text
     //update min and max temp readings
     //get string of numbers from array
@@ -121,15 +119,25 @@ function getgraphdata(chartid = 1, zone = 1, hours = 0.5) {
     tempmin = Math.min(...temperaturenumbers);
     tempmax = Math.max(...temperaturenumbers);
     tempnow = temperaturenumbers[temperaturenumbers.length - 1];
-    temps = "Temp min: " + tempmin.toString() + ", Max: " + tempmax.toString() + ", Now: " + tempnow.toString();
-    document.getElementById("tempschart" + chartid).innerHTML = temps;
+    temps = "Temp " + " Max: " + tempmax.toString()+ ", Min: " + tempmin.toString()  + ", Now: " + tempnow.toString();
+    //document.getElementById("tempschart" + chartid).innerHTML = temps;
 
     tempSettings = "Temp SP Hi: " + tSPHi + ", Lo: " + tSPLo;
+    processUptimeTxt = ".    Process uptime: " + response.settings.processUptime
     document.getElementById("tempSettings" + chartid).innerHTML = tempSettings;
+    //fill chart titlechart
+    titleTxt = "Zone: " + zone + ", " + hours + " hours. " + temps +
+    ",<br> System: " + response.settings.systemMessage + processUptimeTxt
+    document.getElementById("titlechart" + chartid).innerHTML = titleTxt;
 
     var totalsamples = temperaturenumbers.length;
-    document.getElementById("totalsampleschart" + chartid).innerHTML = 'Samples: ' + '<span class="badge">' + totalsamples + '</span>';
+    //document.getElementById("totalsampleschart" + chartid).innerHTML = 'Samples: ' + '<span class="badge">' + totalsamples + '</span>';
+    document.getElementById("totalsampleschart" + chartid).innerHTML = 'Samples: ' + totalsamples;
+
     document.getElementById("lastsampletimechart" + chartid).innerHTML = "Last sample time: " + response.samples[response.samples.length - 1].sample_dt;
+
+    //document.getElementById("processUptime" + chartid).innerHTML = processUptimeTxt;
+    // document.getElementById("systemMessage" + chartid).innerHTML = "System: " + response.settings.systemMessage;
 
     tmaxgraph = tSPHi + 0.5;
     tmingraph = tSPLo - 1.5;
@@ -232,7 +240,8 @@ function getgraphdata(chartid = 1, zone = 1, hours = 0.5) {
     //convert to seconds
     secondsLoading = millisecondsLoading / 1000;
     //update load time text
-    $('.loadtimechart' + chartid).html('<span class="badge">' + secondsLoading + '</span>');
+//    $('.loadtimechart' + chartid).html('<span class="badge">' + secondsLoading + '</span>');
+    $('.loadtimechart' + chartid).html(secondsLoading);
 
     // var reload_call = "getgraphdata(chartid, zone)";
     // console.log(' reload call:  ' + reload_call);
@@ -241,16 +250,22 @@ function getgraphdata(chartid = 1, zone = 1, hours = 0.5) {
     //create string to pass into setinterval call
     var interval_t = "getgraphdata('" + chartid + "'," + zone + ")";
     //set new interval based on last reload time
-    reloadInterval = ((10 * 1000) + (millisecondsLoading * 5));
+    reloadInterval = ((5 * 1000) + (millisecondsLoading * 5));
     var reloadIntervalSeconds =  reloadInterval/1000;
     window.intervalTimerHandle[zone] = window.setInterval(interval_t, reloadInterval);
-    document.getElementById("reloadInterval" + chartid).innerHTML = 'Reload Interval: ' + '<span class="badge">' + reloadIntervalSeconds + '</span>' + ' seconds';
+
+    //document.getElementById("reloadInterval" + chartid).innerHTML = 'Reload Interval: ' + '<span class="badge">' + reloadIntervalSeconds + '</span>' + ' seconds';
+    // document.getElementById("reloadInterval" + chartid).innerHTML = 'Reload Interval: ' + reloadIntervalSeconds + ' seconds';
 
     //countdown code
      var count = Math.round(reloadIntervalSeconds); //reloadIntervalSeconds;
      var interval = setInterval(function(){
        count--;
-       document.getElementById("countdown" + chartid).innerHTML = 'Countdown: ' + '<span class="badge">' + count + '</span>' + ' seconds';
+//       document.getElementById("countdown" + chartid).innerHTML = 'Countdown: ' + '<span class="badge">' + count + '</span>' + ' seconds';
+       //document.getElementById("countdown" + chartid).innerHTML = 'Countdown: ' + count  + ' seconds';
+       reloadInfoTxt = 'Reload Interval: ' + reloadIntervalSeconds + ' seconds' + ' Countdown: ' + count;
+       document.getElementById("reloadInfo" + chartid).innerHTML = reloadInfoTxt;
+
        if (count <= 0) {
          clearInterval(interval);
          return;

@@ -193,22 +193,19 @@ class GraphZoneController extends Controller
     {
         if ($zone == 1) {
             $db_conn_str = 'rpimysql';
-            $tSPhi = 22.5;
-            $tSPlo = 15.3;
-            //$tSPhi = DB::connection($db_conn_str)->select('SELECT tempSPLOn  FROM config ORDER BY id DESC LIMIT 1');
-            $tSPhi = DB::connection($db_conn_str)->select('SELECT tempSPLOn from config');
-            $tSPhi = $tSPhi[0]->tempSPLOn;
-            $tSPlo = DB::connection($db_conn_str)->select('SELECT tempSPLOff from config');
-            $tSPlo = $tSPlo[0]->tempSPLOff;
-            //$tSPlo = DB::connection($db_conn_str)->select('SELECT tempSPLOff  FROM config ORDER BY id DESC LIMIT 1');
-            //var_dump(DB::connection($db_conn_str)->select('SELECT tempSPLOn  FROM config ORDER BY id DESC LIMIT 1'));
-            //die();
-
         } elseif ($zone == 2) {
             $db_conn_str = 'pcdmysql';
-            $tSPhi = 24.0;
-            $tSPlo = 21.0;
         }
+        $tSPhi = DB::connection($db_conn_str)->select('SELECT tempSPLOn from config');
+        $tSPhi = $tSPhi[0]->tempSPLOn;
+        $tSPlo = DB::connection($db_conn_str)->select('SELECT tempSPLOff from config');
+        $tSPlo = $tSPlo[0]->tempSPLOff;
+
+        $processUptime = DB::connection($db_conn_str)->select('SELECT processUptime from config');
+        $processUptime = $processUptime[0]->processUptime;
+        $systemMessage = DB::connection($db_conn_str)->select('SELECT systemMessage from config');
+        $systemMessage = $systemMessage[0]->systemMessage;
+
         $minutes = $hours * 60;
                 //try {
         $last_record_time = DB::connection($db_conn_str)->select('SELECT sample_dt  FROM thdata ORDER BY id DESC LIMIT 1');
@@ -250,7 +247,9 @@ class GraphZoneController extends Controller
             'tmin'=> $tmin,
             'temp_now'=> $temp_now,
             'tlast_sample' => $tlast_sample,
-            'zone' => 'Zone ' . $zone
+            'zone' => 'Zone ' . $zone,
+            'processUptime' => $processUptime,
+            'systemMessage' => $systemMessage
         ];
 
         //var_dump( json_decode( compact('samples', 'hours', 'settings')) );
