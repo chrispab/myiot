@@ -123,11 +123,11 @@ function getgraphdata(chartid = 1, zone = 1, hours = 0.5) {
     //document.getElementById("tempschart" + chartid).innerHTML = temps;
 
     tempSettings = "Temp SP Hi: " + tSPHi + ", Lo: " + tSPLo;
-    processUptimeTxt = ".    Process uptime: " + response.settings.processUptime
+    processUptimeTxt = ". Process up: " + response.settings.processUptime
     document.getElementById("tempSettings" + chartid).innerHTML = tempSettings;
     //fill chart titlechart
     titleTxt = "Zone: " + zone + ", " + hours + " hours. " + temps +
-    ",<br> System: " + response.settings.systemMessage + processUptimeTxt
+    ",<br>System: " + response.settings.systemMessage + processUptimeTxt
     document.getElementById("titlechart" + chartid).innerHTML = titleTxt;
 
     var totalsamples = temperaturenumbers.length;
@@ -250,7 +250,7 @@ function getgraphdata(chartid = 1, zone = 1, hours = 0.5) {
     //create string to pass into setinterval call
     var interval_t = "getgraphdata('" + chartid + "'," + zone + ")";
     //set new interval based on last reload time
-    reloadInterval = ((5 * 1000) + (millisecondsLoading * 5));
+    reloadInterval = ((3 * 1000) + (millisecondsLoading * 3));
     var reloadIntervalSeconds =  reloadInterval/1000;
     window.intervalTimerHandle[zone] = window.setInterval(interval_t, reloadInterval);
 
@@ -263,7 +263,7 @@ function getgraphdata(chartid = 1, zone = 1, hours = 0.5) {
        count--;
 //       document.getElementById("countdown" + chartid).innerHTML = 'Countdown: ' + '<span class="badge">' + count + '</span>' + ' seconds';
        //document.getElementById("countdown" + chartid).innerHTML = 'Countdown: ' + count  + ' seconds';
-       reloadInfoTxt = 'Reload Interval: ' + reloadIntervalSeconds + ' seconds' + ' Countdown: ' + count;
+       reloadInfoTxt = 'Reload Interval: ' + reloadIntervalSeconds + ' secs. ' + ' Countdown: ' + count;
        document.getElementById("reloadInfo" + chartid).innerHTML = reloadInfoTxt;
 
        if (count <= 0) {
