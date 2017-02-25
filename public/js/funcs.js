@@ -1,4 +1,4 @@
-< script >
+
     setInterval(getgraphdata, 10 * 1000);
 
 function getgraphdata() {
@@ -97,4 +97,3 @@ function getgraphdata() {
 
 
 };
-</script>

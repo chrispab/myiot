@@ -5,3 +5,6 @@
 Homestead.json
 Homestead.yaml
 access.log
+/nbproject/private/
+.php_cs.cache
+/nbproject

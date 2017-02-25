@@ -14,8 +14,11 @@ Route::get('/', function () {
 //Route::get('graph2/{hours}', 'Graph2Controller@home')->middleware('auth');
 Route::get('graph/{zone}/{hours}', 'GraphZoneController@ajaxgraph')->middleware('auth');
 Route::get('ajaxgraph/{zone}/{hours}', 'GraphZoneController@ajaxgraph')->middleware('auth');
-Route::get('graphall/{zone}/{hours}', 'GraphZoneController@ajaxgraphall')->middleware('auth');
-
+//Route::get('graphall/{zone}/{hours}', 'GraphZoneController@ajaxgraphall')->middleware('auth');
+//Route::get('graphall/{hours}', 'GraphZoneController@graphall')->middleware('auth');
+Route::get('graphall/{hours}', function () {
+    return view('ajaxgraphall');
+})->middleware('auth');
 
 Route::post('getajaxgraphdata/{zone}/{hours}', 'GraphZoneController@getajaxgraphdata')->middleware('auth');
 

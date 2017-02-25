@@ -8,9 +8,29 @@ $.ajaxSetup({
   }
 });
 </script>
+
+
+<!-- c3 stuff -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.css" rel="stylesheet" type="text/css">
+<!-- <link href="/css/c3.css" rel="stylesheet" type="text/css"> -->
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.0/d3.min.js"></script> -->
+<!-- <script type="text/javascript" src="/js/d3.js"></script> -->
+<!-- <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script> -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
+<!-- <script type="text/javascript" src="/js/c3.js"></script> -->
+
+
 <script src="/js/loadingoverlay.min.js"></script>
 <script src="/js/mychart.js"></script>
-<title id="title">MyIoT - Graph All - Hours</title>
+<!-- bootstrap slider -->
+<!-- <script src="/js/bootstrap-slider.min.js"></script> -->
+<!-- <link rel="stylesheet" type="text/css" href="/css/bootstrap-slider.min.css"> -->
+
+
+
+
+<title id="title">MyIoT - Graph All - Hours..</title>
 
 <style>
 .graph-text{
@@ -48,7 +68,11 @@ $.ajaxSetup({
               <h6  class="text-left graph-text" id="reloadInfo{{$i}}">Reload Info</h6>
 
               <button type="button" class="btn btn-primary btn-xs" id="reloadchart{{$i}}" >Reload graph data</button>
-            </div>
+              <span id="lightOffSpan{{$i}}" style="display: none;" class="label label-default">OFF</span>
+              <span id="lightOnSpan{{$i}}"  style="display: none;" class="label label-warning">ON</span>
+
+            <!-- <input id="ex4" type="text" data-slider-min="14" data-slider-max="25" data-slider-step="0.1" data-slider-value="20" data-slider-orientation="vertical"/> -->
+          </div>
           </div>
         </div>
       </div>
@@ -62,4 +86,11 @@ $.ajaxSetup({
   <span class="glyphicon glyphicon-refresh"></span> {{ session()->get('message') }} <span class="glyphicon glyphicon-refresh"></span>
 </h6>
 @endif
+<script>
+// $("#ex4").slider({
+//
+// reversed : true
+//
+// });
+</script>
 @stop
