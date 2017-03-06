@@ -1,6 +1,7 @@
 // global vars
 var numZones = 2;
-var zone = 1;
+var chart = [];
+//var zone = 1;
 var hours = 3;
 var tempmin;
 var tempmax;
@@ -8,11 +9,11 @@ var tempnow;
 var tmaxgraph;
 var tmingraph;
 
-window.numZones = 2;
+// window.numZones = 2;
 window.tSPLo = 21;
 window.tSPHi = 24;
 window.lightState = 0;
-window.chart = [];
+//window.chart = [];
 window.intervalTimerHandle = [];
 
 
@@ -23,8 +24,9 @@ window.intervalTimerHandle = [];
 		document.getElementById(id).style.display = 'none';
 	}
 
+console.log('window.numZones:  ' + window.numZones);
 //on document loaded
-$(function() { // when doc loade loop round graphs create and pouplate
+$(function() { // when doc loaded loop round graphs, create and pouplate
     for (let i = 1; i < window.numZones + 1; i++) {
         //generate charts
         window.chart[i] = c3.generate(window.options);
@@ -55,24 +57,25 @@ function getgraphdata(chartid = 1, zone = 1, hours = 0.5) {
 
     //show loading overlay
     //display loader spinner over chart
-    $("#chart" + chartid).LoadingOverlay("show", {
-        color: "rgba(255, 255, 255, 0.4)",
-        maxSize: "100px",
-        minSize: "20px",
-        size: "10%"
-    });
+    // $("#chart" + chartid).LoadingOverlay("show", {
+    //     color: "rgba(255, 255, 255, 0.4)",
+    //     maxSize: "100px",
+    //     minSize: "20px",
+    //     size: "10%"
+    // });
 
     //make ajax call
     $.post(postAddr, function(response) {
-        
+
                     //window.chart[zone].unload();
+										console.log(response.samples.length);
 
             var obj = {}; //obect to jold objs for graph data/options
 
             //get temps from response oblect
             window.tSPLo = parseFloat(response.settings.tSPlo);
             window.tSPHi = parseFloat(response.settings.tSPhi);
-            
+
             lightState = response.settings.lightState;
 
             //populate data arrays for graph
@@ -143,27 +146,27 @@ function getgraphdata(chartid = 1, zone = 1, hours = 0.5) {
             var totalsamples = temperaturenumbers.length;
             //document.getElementById("totalsampleschart" + chartid).innerHTML = 'Samples: ' + '<span class="badge">' + totalsamples + '</span>';
             document.getElementById("totalsampleschart" + chartid).innerHTML = 'Samples: ' + totalsamples;
-
-            document.getElementById("lastsampletimechart" + chartid).innerHTML = "Last sample time: " + response.samples[response.samples.length - 1].sample_dt;
+						var samples_length = response.samples.length - 1
+            document.getElementById("lastsampletimechart" + chartid).innerHTML = "Last sample time: " + response.samples[samples_length].sample_dt;
 
             //document.getElementById("processUptime" + chartid).innerHTML = processUptimeTxt;
             // document.getElementById("systemMessage" + chartid).innerHTML = "System: " + response.settings.systemMessage;
-            
+
             if (lightState == 0) {
                 showStuff("lightOffSpan" + zone);
                 hideStuff("lightOnSpan" + zone);
             }
             else {
                 showStuff("lightOnSpan" + zone);
-                hideStuff("lightOffSpan" + zone);                
+                hideStuff("lightOffSpan" + zone);
             }
 
 
-            tmaxgraph = tSPHi + 0.5;
+            tmaxgraph = tSPHi + 1.0;
             tmingraph = tSPLo - 1.5;
 
             if (tempmax > tSPHi) {
-                tmaxgraph = tempmax + 0.3;
+                tmaxgraph = tempmax + 1.0;
             }
             if (tempmin < tSPLo) {
                 tmingraph = tempmin - 1.5;
@@ -251,10 +254,10 @@ function getgraphdata(chartid = 1, zone = 1, hours = 0.5) {
         .done(function() {
 
             //hide loader overlay#
-            $("#chart" + chartid).LoadingOverlay("hide");
+            //$("#chart" + chartid).LoadingOverlay("hide");
 
             //eval(chartid.substring(1)).load(columnsobj);
-            //console.log(columnsobj);
+            console.log(columnsobj);
             //window.chart[zone].unload();
             window.chart[zone].internal.loadConfig(axisobj);
             window.chart[zone].internal.loadConfig(gridobj);
@@ -287,7 +290,7 @@ function getgraphdata(chartid = 1, zone = 1, hours = 0.5) {
             //create string to pass into setinterval call
             var interval_t = "getgraphdata('" + chartid + "'," + zone + ")";
             //set new interval based on last reload time
-            reloadInterval = ((3 * 1000) + (millisecondsLoading * 3));
+            reloadInterval = ((3 * 1000) + (millisecondsLoading * 6));
             var reloadIntervalSeconds = reloadInterval / 1000;
             window.intervalTimerHandle[zone] = window.setInterval(interval_t, reloadInterval);
 
@@ -309,6 +312,7 @@ function getgraphdata(chartid = 1, zone = 1, hours = 0.5) {
                 }
             }, 1000);
             //
+						//window.chart[zone].load(columnsobj);
 
 
         });

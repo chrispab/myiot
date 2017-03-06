@@ -11,14 +11,16 @@ $.ajaxSetup({
 
 
 <!-- c3 stuff -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.css" rel="stylesheet" type="text/css">
-<!-- <link href="/css/c3.css" rel="stylesheet" type="text/css"> -->
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
+<!--<link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.css" rel="stylesheet" type="text/css">-->
+ <link href="/css/c3.css" rel="stylesheet" type="text/css">
+<!-- <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.13/d3.js"></script> -->
+<script type="text/javascript" src="/js/d3v3_5_17.js"></script>
+
 <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.0/d3.min.js"></script> -->
 <!-- <script type="text/javascript" src="/js/d3.js"></script> -->
 <!-- <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script> -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
-<!-- <script type="text/javascript" src="/js/c3.js"></script> -->
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script> -->
+<script type="text/javascript" src="/js/c3.js"></script>
 
 
 <script src="/js/loadingoverlay.min.js"></script>
@@ -47,7 +49,7 @@ $.ajaxSetup({
     <div class="panel panel-success">
       <div class="panel-heading " id="titlechart{{$i}}" >Chart Info</div>
       <div class="panel-body" >
-        <div id="chart{{$i}}" class="text-center" ></div>
+        <div id="chart{{$i}}"  ></div>
         <div class="panel-footer">
           <div class="row">
             <div class="col-sm-5">
@@ -68,8 +70,10 @@ $.ajaxSetup({
               <h6  class="text-left graph-text" id="reloadInfo{{$i}}">Reload Info</h6>
 
               <button type="button" class="btn btn-primary btn-xs" id="reloadchart{{$i}}" >Reload graph data</button>
-              <span id="lightOffSpan{{$i}}" style="display: none;" class="label label-default">OFF</span>
-              <span id="lightOnSpan{{$i}}"  style="display: none;" class="label label-warning">ON</span>
+              <span id="lightOffSpan{{$i}}" style="background-color:black; display: none;" class="badge">OFF</span>
+              <!--<span id="lightOffSpan{{$i}}" style="color:black; display: none;" class="glyphicon glyphicon-certificate">OFF</span>-->
+
+              <span id="lightOnSpan{{$i}}" style="background-color:red; display: none;" class="badge">ON</span>
 
             <!-- <input id="ex4" type="text" data-slider-min="14" data-slider-max="25" data-slider-step="0.1" data-slider-value="20" data-slider-orientation="vertical"/> -->
           </div>
