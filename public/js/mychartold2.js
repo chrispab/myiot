@@ -17,20 +17,16 @@ window.lightState = 0;
 window.intervalTimerHandle = [];
 
 
-function showStuff(id) {
-    document.getElementById(id).style.display = '';
-}
-
-function hideStuff(id) {
-    document.getElementById(id).style.display = 'none';
-}
+	function showStuff(id) {
+		document.getElementById(id).style.display = '';
+	}
+	function hideStuff(id) {
+		document.getElementById(id).style.display = 'none';
+	}
 
 console.log('window.numZones:  ' + window.numZones);
-
 //on document loaded
-$(document).ready(function() { // when doc loaded loop round graphs, create and pouplate
-
-    //init the charts
+$(function() { // when doc loaded loop round graphs, create and pouplate
     for (let i = 1; i < window.numZones + 1; i++) {
         //generate charts
         window.chart[i] = c3.generate(window.options);
@@ -40,20 +36,18 @@ $(document).ready(function() { // when doc loaded loop round graphs, create and 
         //get data and refresh graphs
         getgraphdata(i, i);
         //attach buttons to manually fire updates
-        $('#reloadchart' + i).click(function() {
-            getgraphdata(i, i);
-        });
+            $('#reloadchart' + i).click(function() {
+                getgraphdata(i, i);
+            });
     }
-
-    //
-
 });
 
 function getgraphdata(chartid = 1, zone = 1, hours = 0.5) {
     //get last param from url- hours
     var pathArray = window.location.pathname.split('/');
     hours = pathArray[pathArray.length - 1];
-
+    //url to post to get graphdata
+    var postAddr = '/getajaxgraphdata/' + zone.toString() + '/' + hours.toString();
     //console.log(postAddr);
     var millisecondsLoading;
     var startTime;
@@ -70,13 +64,11 @@ function getgraphdata(chartid = 1, zone = 1, hours = 0.5) {
     //     size: "10%"
     // });
 
-    //make ajax call, and process response obj
-    //url to post to get graphdata
-    var postAddr = '/getajaxgraphdata/' + zone.toString() + '/' + hours.toString();
+    //make ajax call
     $.post(postAddr, function(response) {
 
-            //window.chart[zone].unload();
-            console.log(response.samples.length);
+                    //window.chart[zone].unload();
+										console.log(response.samples.length);
 
             var obj = {}; //obect to jold objs for graph data/options
 
@@ -154,7 +146,7 @@ function getgraphdata(chartid = 1, zone = 1, hours = 0.5) {
             var totalsamples = temperaturenumbers.length;
             //document.getElementById("totalsampleschart" + chartid).innerHTML = 'Samples: ' + '<span class="badge">' + totalsamples + '</span>';
             document.getElementById("totalsampleschart" + chartid).innerHTML = 'Samples: ' + totalsamples;
-            var samples_length = response.samples.length - 1
+						var samples_length = response.samples.length - 1
             document.getElementById("lastsampletimechart" + chartid).innerHTML = "Last sample time: " + response.samples[samples_length].sample_dt;
 
             //document.getElementById("processUptime" + chartid).innerHTML = processUptimeTxt;
@@ -163,7 +155,8 @@ function getgraphdata(chartid = 1, zone = 1, hours = 0.5) {
             if (lightState == 0) {
                 showStuff("lightOffSpan" + zone);
                 hideStuff("lightOnSpan" + zone);
-            } else {
+            }
+            else {
                 showStuff("lightOnSpan" + zone);
                 hideStuff("lightOffSpan" + zone);
             }
@@ -297,7 +290,7 @@ function getgraphdata(chartid = 1, zone = 1, hours = 0.5) {
             //create string to pass into setinterval call
             var interval_t = "getgraphdata('" + chartid + "'," + zone + ")";
             //set new interval based on last reload time
-            reloadInterval = ((5 * 1000) + (millisecondsLoading * 9));
+            reloadInterval = ((3 * 1000) + (millisecondsLoading * 6));
             var reloadIntervalSeconds = reloadInterval / 1000;
             window.intervalTimerHandle[zone] = window.setInterval(interval_t, reloadInterval);
 
@@ -319,7 +312,7 @@ function getgraphdata(chartid = 1, zone = 1, hours = 0.5) {
                 }
             }, 1000);
             //
-            //window.chart[zone].load(columnsobj);
+						//window.chart[zone].load(columnsobj);
 
 
         });
