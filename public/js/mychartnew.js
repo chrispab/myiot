@@ -6,60 +6,68 @@ var hours = 3;
 var tempmin;
 var tempmax;
 var tempnow;
-var tmaxgraph;
-var tmingraph;
+var tmaxgraph = 23;
+var tmingraph = 14;
 var updateInterval = 5000;
 
+var myVar;
+
 // window.numZones = 2;
-window.tSPLo = 21;
-window.tSPHi = 24;
-window.lightState = 0;
+var tSPLo = 17;
+var tSPHi = 19;
+var lightState = 0;
 //window.chart = [];
-window.intervalTimerHandle = [];
+var intervalTimerHandle = [];
 
+var axisobj = {};
+var gridobj = {};
 
-function showStuff(id) {
-    document.getElementById(id).style.display = '';
-}
+var startTimeChartUpdate = [];
+var endTimeChartUpdate = [];
 
-function hideStuff(id) {
-    document.getElementById(id).style.display = 'none';
-}
-
-console.log('window.numZones:  ' + window.numZones);
+console.log('numZones:  ' + numZones);
 
 //do when document loaded
 $(document).ready(function () { // when doc loaded loop round graphs, create and popuplate
     //init the charts
-    for (let i = 1; i < window.numZones + 1; i++) {
+    for (let i = 1; i < numZones + 1; i++) {
         //initData();
         //generate charts
-        window.chart[i] = c3.generate(window.options);
-        $(window.chart[i].element).appendTo("#chart" + i);
+        chart[i] = c3.generate(window.options);
+        $(chart[i].element).appendTo("#chart" + i);
         //clear data already in charts
-        window.chart[i].unload();
+        chart[i].unload();
 
         //attach buttons to manually fire updates
         $('#reloadchart' + i).click(function () {
-            getgraphdata(i, i);
+            GetData(i, i);
         });
         //get data and refresh graphs
-        setTimeout(GetData(i, i), updateInterval);
+        //call after timeout
+        console.log("on load z & interval: " + ", " + updateInterval);
+        //intervalTimerHandle[i] = setTimeout(GetData(i, i), updateInterval);
+        //setTimeout( function(){ GetData(i,i);}, updateInterval);
+        GetData(i, i);
         //getgraphdata(i, i);
     }
 });
 
-function initData() {
-    for (var i = 0; i < totalPoints; i++) {
-        var temp = [now += updateInterval, 0];
 
-        cpu.push(temp);
-        cpuCore.push(temp);
-        disk.push(temp);
-    }
+function initData() {
 }
 
 function GetData(chartid = 1, zone = 1, hours = 0.5) {
+    //show loading overlay
+    //display loader spinner over chart
+    $("#chart" + chartid).LoadingOverlay("show", {
+        color: "rgba(255, 255, 255, 0.4)",
+        maxSize: "100px",
+        minSize: "20px",
+        size: "10%"
+    });
+    //get update start time for chart
+    startTimeChartUpdate[chartid] = new Date();
+    
     //generate url for zone and time
     //get last param from url- hours as may be diff from default of 0.5
     var pathArray = window.location.pathname.split('/');
@@ -69,8 +77,6 @@ function GetData(chartid = 1, zone = 1, hours = 0.5) {
 
     // Using the core $.ajax() method
     request = $.ajax({
-        //disable cache
-        //cache: false, - not reqd cos using POST
         // The URL for the request
         url: postAddr,
         type: "POST",
@@ -80,8 +86,8 @@ function GetData(chartid = 1, zone = 1, hours = 0.5) {
     // Callback handler that will be called on success
     request.done(function (response, textStatus, jqXHR) {
         // Log a message to the console
-        console.log("Hooray, it worked!");
-        update(response, chartid, zone, hours);
+        console.log("data got for zone: " + zone);
+        updateChart(response, chartid, zone, hours);
     });
 
     // Callback handler that will be called on failure
@@ -91,39 +97,32 @@ function GetData(chartid = 1, zone = 1, hours = 0.5) {
                 "The following error occurred: " +
                 textStatus, errorThrown
                 );
-        setTimeout(GetData, updateInterval);
+        intervalTimerHandle[zone] = setTimeout(function () {
+            GetData(chartid, zone);
+        }, updateInterval);
     });
 }
 
-function update(response, chartid, zone, hours) {
+
+//called when succesful ajax call done - to processdata returned and update zone chart
+function updateChart(response, chartid, zone, hours) {
     //console.log(postAddr);
     var millisecondsLoading;
-    var startTime;
-    var endTime;
 
-    startTime = new Date();
-
-    //show loading overlay
-    //display loader spinner over chart
-    // $("#chart" + chartid).LoadingOverlay("show", {
-    //     color: "rgba(255, 255, 255, 0.4)",
-    //     maxSize: "100px",
-    //     minSize: "20px",
-    //     size: "10%"
-    // });
-    // 
 
     //window.chart[zone].unload();
     console.log(response.samples.length);
+    console.log(response);
 
-    var obj = {}; //obect to jold objs for graph data/options
+    //var obj = {}; //obect to jold objs for graph data/options
 
     //get temps from response oblect
-    window.tSPLo = parseFloat(response.settings.tSPlo);
-    window.tSPHi = parseFloat(response.settings.tSPhi);
-
+    tSPLo = parseFloat(response.settings.tSPlo);
+    tSPHi = parseFloat(response.settings.tSPhi);
+    console.log(tSPLo);
+    console.log(tSPHi);
     lightState = response.settings.lightState;
-
+    console.log("lstate: ", lightState);
     //populate data arrays for graph
     var i;
     var time = [];
@@ -156,12 +155,12 @@ function update(response, chartid, zone, hours) {
     for (i = 0; i < response.samples.length; i++) {
         fan.push(response.samples[i].fanstate * 13);
     }
-    obj["time"] = time;
-    obj["temperature"] = temperature;
-    obj["humidity"] = humidity;
-    obj["heater"] = heater;
-    obj["vent"] = vent;
-    obj["fan"] = fan;
+//    obj["time"] = time;
+//    obj["temperature"] = temperature;
+//    obj["humidity"] = humidity;
+//    obj["heater"] = heater;
+//    obj["vent"] = vent;
+//    obj["fan"] = fan;
 
     //update last sample time text
     //update min and max temp readings
@@ -178,21 +177,28 @@ function update(response, chartid, zone, hours) {
     tempmin = Math.min(...temperaturenumbers);
     tempmax = Math.max(...temperaturenumbers);
     tempnow = temperaturenumbers[temperaturenumbers.length - 1];
-    temps = "Temp " + " Max: " + tempmax.toString() + ", Min: " + tempmin.toString() + ", Now: " + tempnow.toString();
+    temps = "Max t: " + tempmax.toString() + ", Min: " + tempmin.toString() + ", Now: " + tempnow.toString();
     //document.getElementById("tempschart" + chartid).innerHTML = temps;
 
     tempSettings = "Temp SP Hi: " + tSPHi + ", Lo: " + tSPLo;
-    processUptimeTxt = ". Process up: " + response.settings.processUptime;
+    
+    systemUpTimeTxt = "System up: " + response.settings.systemUpTime;
+    document.getElementById("systemUpTime" + chartid).innerHTML = systemUpTimeTxt;
+    
+    processUpTimeTxt = "Process up: " + response.settings.processUptime;
+    document.getElementById("processUpTime" + chartid).innerHTML = processUpTimeTxt;
+
     document.getElementById("tempSettings" + chartid).innerHTML = tempSettings;
+    
     //fill chart titlechart
-    titleTxt = "<h6>Zone: " + zone + ", " + hours + " hours. " + temps +
-            ",<br>System: " + response.settings.systemMessage + processUptimeTxt + "</h6>";
+    titleTxt = "<h6>Zone " + zone + ", " + hours + " hours. " + temps;
+    //+",<br>System: " + response.settings.systemMessage + "</h6>";
     document.getElementById("titlechart" + chartid).innerHTML = titleTxt;
 
     var totalsamples = temperaturenumbers.length;
     //document.getElementById("totalsampleschart" + chartid).innerHTML = 'Samples: ' + '<span class="badge">' + totalsamples + '</span>';
     document.getElementById("totalsampleschart" + chartid).innerHTML = 'Samples: ' + totalsamples;
-    var samples_length = response.samples.length - 1
+    var samples_length = response.samples.length - 1;
     document.getElementById("lastsampletimechart" + chartid).innerHTML = "Last sample time: " + response.samples[samples_length].sample_dt;
 
     //document.getElementById("processUptime" + chartid).innerHTML = processUptimeTxt;
@@ -216,69 +222,14 @@ function update(response, chartid, zone, hours) {
     if (tempmin < tSPLo) {
         tmingraph = tempmin - 1.5;
     }
-    //global
-    axisobj = {
-        axis: {
-            x: {
-                type: 'timeseries',
-                tick: {
-                    rotate: 45,
-                    multiline: false,
-                    //              format : '%Y-%m-%d %H:%M:%S',
-                    count: 60,
-                    fit: true,
-                    format: '%H:%M:%S'
-                            //format : '%H:%M',
-                }
-            },
-            y: {
-                label: {
-                    text: 'Humidity',
-                    position: 'outer-middle'
-                },
-                max: 90,
-                min: 10,
-                padding: {
-                    top: 0,
-                    bottom: 0
-                }
-            },
-            y2: {
-                show: true,
-                label: {
-                    text: 'Temperature',
-                    position: 'outer-middle'
-                },
 
-                max: tmaxgraph,
-                min: tmingraph,
-                padding: {
-                    top: 0,
-                    bottom: 0
-                }
-            }
-        }
-    };
-
-    //global
-    gridobj = {
-        grid: {
-            x: {
-                show: true
-            },
-            y: {
-                lines: [{
-                        value: tSPLo,
-                        text: 'Low SP: ' + tSPLo,
-                        axis: 'y2'
-                    }, {
-                        value: tSPHi,
-                        text: 'High SP: ' + tSPHi,
-                        axis: 'y2'
-                    }]
-            }
-        }
-    };
+    //setup chart vars from response
+    axisobj.axis.y2.min = tmingraph;
+    axisobj.axis.y2.max = tmaxgraph;
+    gridobj.grid.y.lines[0].value = tSPLo;
+    gridobj.grid.y.lines[1].value = tSPHi;
+    gridobj.grid.y.lines[0].text = 'Low SP: ' + tSPLo;
+    gridobj.grid.y.lines[1].text = 'High SP: ' + tSPHi;
 
     //global
     columnsobj = {
@@ -292,32 +243,15 @@ function update(response, chartid, zone, hours) {
         ]
     };
 
-
-
-    //hide loader overlay#
-    //$("#chart" + chartid).LoadingOverlay("hide");
-
-    //eval(chartid.substring(1)).load(columnsobj);
     console.log(columnsobj);
-    //window.chart[zone].unload();
-    window.chart[zone].internal.loadConfig(axisobj);
-    window.chart[zone].internal.loadConfig(gridobj);
 
-    window.chart[zone].load(columnsobj);
-    // console.log(columnsobj);
-    //
-    // window.chart[zone].resize();
-    //
-    // window.chart[zone].flush();
-    //console.log(columnsobj);
+    //load the new chart data
+    chart[zone].internal.loadConfig(axisobj);
+    chart[zone].internal.loadConfig(gridobj);
+    chart[zone].load(columnsobj);
 
-    //window.chart[zone].load(columnsobj);
-
-    //console.log('     loaded');
-
-    //$("#chart" + chartid).LoadingOverlay("hide");
-    endTime = new Date();
-    millisecondsLoading = endTime.getTime() - startTime.getTime();
+    endTimeChartUpdate[chartid] = new Date();
+    millisecondsLoading = endTimeChartUpdate[chartid].getTime() - startTimeChartUpdate[chartid].getTime();
     //convert to seconds
     secondsLoading = millisecondsLoading / 1000;
     //update load time text
@@ -327,26 +261,28 @@ function update(response, chartid, zone, hours) {
     // var reload_call = "getgraphdata(chartid, zone)";
     //console.log(' reload call:  ' + reload_call);
     //clear current interval
-    window.clearInterval(window.intervalTimerHandle[zone]);
-    //create string to pass into setinterval call
-    var interval_t = "getgraphdata('" + chartid + "'," + zone + ")";
-    //set new interval based on last reload time
-    reloadInterval = ((3 * 1000) + (millisecondsLoading * 6));
+
+
+//    window.clearInterval(window.intervalTimerHandle[zone]);
+//    //create string to pass into setinterval call
+//    var interval_t = "getgraphdata('" + chartid + "'," + zone + ")";
+//    //set new interval based on last reload time
+    reloadInterval = ((3 * 1000) + (millisecondsLoading * 5));
     var reloadIntervalSeconds = reloadInterval / 1000;
-    window.intervalTimerHandle[zone] = window.setInterval(interval_t, reloadInterval);
-
-    //document.getElementById("reloadInterval" + chartid).innerHTML = 'Reload Interval: ' + '<span class="badge">' + reloadIntervalSeconds + '</span>' + ' seconds';
-    // document.getElementById("reloadInterval" + chartid).innerHTML = 'Reload Interval: ' + reloadIntervalSeconds + ' seconds';
-
+//    window.intervalTimerHandle[zone] = window.setInterval(interval_t, reloadInterval);
+//
+//    //document.getElementById("reloadInterval" + chartid).innerHTML = 'Reload Interval: ' + '<span class="badge">' + reloadIntervalSeconds + '</span>' + ' seconds';
+//    // document.getElementById("reloadInterval" + chartid).innerHTML = 'Reload Interval: ' + reloadIntervalSeconds + ' seconds';
+//
     //countdown code
     var count = Math.round(reloadIntervalSeconds); //reloadIntervalSeconds;
     var interval = setInterval(function () {
         count--;
-        //       document.getElementById("countdown" + chartid).innerHTML = 'Countdown: ' + '<span class="badge">' + count + '</span>' + ' seconds';
-        //document.getElementById("countdown" + chartid).innerHTML = 'Countdown: ' + count  + ' seconds';
+//        //       document.getElementById("countdown" + chartid).innerHTML = 'Countdown: ' + '<span class="badge">' + count + '</span>' + ' seconds';
+//        //document.getElementById("countdown" + chartid).innerHTML = 'Countdown: ' + count  + ' seconds';
         reloadInfoTxt = 'Reload Interval: ' + reloadIntervalSeconds + ' secs. ' + ' Countdown: ' + count;
         document.getElementById("reloadInfo" + chartid).innerHTML = reloadInfoTxt;
-
+//
         if (count <= 0) {
             clearInterval(interval);
             return;
@@ -354,19 +290,85 @@ function update(response, chartid, zone, hours) {
     }, 1000);
     //
     //window.chart[zone].load(columnsobj);
-    //$.plot($("#flot-placeholder1"), dataset, options);
-    setTimeout(GetData, updateInterval);
+
+    updateInterval = reloadInterval;
+    console.log("update - set timeout for next call. zone: " + zone + ", interval: " + updateInterval);
+
+    intervalTimerHandle[zone] = setTimeout(function () {
+        GetData(chartid, zone);
+    }, updateInterval);
+
+    //hide loader overlay now chart update processed
+    $("#chart" + chartid).LoadingOverlay("hide");
 }
 
 
-function getgraphdata(chartid = 1, zone = 1, hours = 0.5) {
+//global
+axisobj = {
+    axis: {
+        x: {
+            type: 'timeseries',
+            tick: {
+                rotate: 45,
+                multiline: false,
+                //              format : '%Y-%m-%d %H:%M:%S',
+                count: 60,
+                fit: true,
+                format: '%H:%M:%S'
+                        //format : '%H:%M',
+            }
+        },
+        y: {
+            label: {
+                text: 'Humidity',
+                position: 'outer-middle'
+            },
+            max: 90,
+            min: 10,
+            padding: {
+                top: 0,
+                bottom: 0
+            }
+        },
+        y2: {
+            show: true,
+            label: {
+                text: 'Temperature',
+                position: 'outer-middle'
+            },
+
+            max: tmaxgraph,
+            min: tmingraph,
+            padding: {
+                top: 0,
+                bottom: 0
+            }
+        }
+    }
+};
+
+//global
+gridobj = {
+    grid: {
+        x: {
+            show: true
+        },
+        y: {
+            lines: [{
+                    value: tSPLo,
+                    text: 'Low SP: ' + tSPLo,
+                    axis: 'y2'
+                }, {
+                    value: tSPHi,
+                    text: 'High SP: ' + tSPHi,
+                    axis: 'y2'
+                }]
+        }
+    }
+};
 
 
-}
-;
-
-
-window.options = {
+options = {
     //   size: {
     //     height: 240,
     //     width: 480
@@ -464,3 +466,12 @@ window.options = {
         }
     }
 };
+
+
+function showStuff(id) {
+    document.getElementById(id).style.display = '';
+}
+
+function hideStuff(id) {
+    document.getElementById(id).style.display = 'none';
+}
