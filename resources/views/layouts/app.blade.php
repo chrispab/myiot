@@ -77,6 +77,8 @@
                             <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Graphs <span class="caret"></span></a>
                             <ul class="dropdown-menu">
+                                <li><a href="./0.017">1 Min</a></li>
+                                <li><a href="./0.1">6 Mins</a></li>
                                 <li><a href="./0.25">15 Mins</a></li>
                                 <li><a href="./0.5">30 Mins</a></li>
                                 <li><a href="./1.0">1 Hour</a></li>
@@ -85,6 +87,7 @@
                                 <li><a href="./8.0">8 Hours</a></li>
                                 <li><a href="./12.0">12 Hours</a></li>
                                 <li><a href="./24.0">24 Hours</a></li>
+                                <li><a href="./48.0">48 Hours</a></li>
                             </ul>
                             </li>
                         @endif

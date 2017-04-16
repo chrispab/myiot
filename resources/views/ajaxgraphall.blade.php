@@ -13,8 +13,8 @@
 <!-- c3 stuff -->
 <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.css" rel="stylesheet" type="text/css">-->
 <link href="/css/c3.css" rel="stylesheet" type="text/css">
-<!-- <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.13/d3.js"></script> -->
-<script type="text/javascript" src="/js/d3v3_5_17.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.13/d3.js"></script>
+<!-- <script type="text/javascript" src="/js/d3v3_5_17.js"></script> -->
 
 <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.0/d3.min.js"></script> -->
 <!-- <script type="text/javascript" src="/js/d3.js"></script> -->
@@ -53,6 +53,11 @@
                         <h6 class="text-left graph-text" id="totalsampleschart{{$i}}"  >Samples: </h6>
                         <h6 class="text-left graph-text">Refresh Time: <div class="loadtimechart{{$i}}"style="display: inline-block;"></div> secs </h6>
                             <h6  class="text-left graph-text" id="tempSettings{{$i}}">Temperature Settings</h6>
+                            <span id="staleMinutesTrueSpan{{$i}}" style="background-color:brown; display: none;" class="badge">Stale</span>
+                            <!--<span id="lightOffSpan{{$i}}" style="color:black; display: none;" class="glyphicon glyphicon-certificate">OFF</span>-->
+
+                            <span id="staleMinutesFalseSpan{{$i}}" style="background-color:green; display: none;" class="badge">Fresh</span>
+
                         <!-- <h6  class="text-left graph-text" id="countdown{{$i}}">countdown</h6> -->
                         <!-- <h6 class="text-left graph-text" id="processUptime{{$i}}">Process Up Time: </h6> -->
                         <!-- <h6 class="text-left graph-text" id="systemMessage1">System Message: </h6> -->
@@ -61,7 +66,7 @@
                         <!-- <h6  class="text-left graph-text" id="tempschart{{$i}}">Temperatures</h6> -->
                         <h6  class="text-left graph-text" id="processUpTime{{$i}}">Process Up Time</h6>
                         <h6  class="text-left graph-text" id="systemUpTime{{$i}}">System Up Time</h6>
-                        
+
                         <h6 class="text-left graph-text" id="lastsampletimechart{{$i}}">Last sample time: </h6>
 
                         <div>

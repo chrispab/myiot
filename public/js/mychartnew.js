@@ -6,15 +6,15 @@ var hours = 3;
 var tempmin;
 var tempmax;
 var tempnow;
-var tmaxgraph = 23;
-var tmingraph = 14;
-var updateInterval = 5000;
+var tmaxgraph = 18;
+var tmingraph = 17;
+var updateInterval = 20000;
 
 var myVar;
 
 // window.numZones = 2;
 var tSPLo = 17;
-var tSPHi = 19;
+var tSPHi = 18;
 var lightState = 0;
 //window.chart = [];
 var intervalTimerHandle = [];
@@ -28,33 +28,28 @@ var endTimeChartUpdate = [];
 console.log('numZones:  ' + numZones);
 
 //do when document loaded
-$(document).ready(function () { // when doc loaded loop round graphs, create and popuplate
+$(document).ready(function() { // when doc loaded loop round graphs, create and popuplate
     //init the charts
     for (let i = 1; i < numZones + 1; i++) {
         //initData();
         //generate charts
-        chart[i] = c3.generate(window.options);
+        chart[i] = c3.generate(options);
         $(chart[i].element).appendTo("#chart" + i);
-        //clear data already in charts
-        chart[i].unload();
 
         //attach buttons to manually fire updates
-        $('#reloadchart' + i).click(function () {
+        $('#reloadchart' + i).click(function() {
             GetData(i, i);
         });
         //get data and refresh graphs
-        //call after timeout
         console.log("on load z & interval: " + ", " + updateInterval);
-        //intervalTimerHandle[i] = setTimeout(GetData(i, i), updateInterval);
-        //setTimeout( function(){ GetData(i,i);}, updateInterval);
+        //chart[i].flush();
+
         GetData(i, i);
-        //getgraphdata(i, i);
     }
 });
 
 
-function initData() {
-}
+function initData() {}
 
 function GetData(chartid = 1, zone = 1, hours = 0.5) {
     //show loading overlay
@@ -67,7 +62,7 @@ function GetData(chartid = 1, zone = 1, hours = 0.5) {
     });
     //get update start time for chart
     startTimeChartUpdate[chartid] = new Date();
-    
+
     //generate url for zone and time
     //get last param from url- hours as may be diff from default of 0.5
     var pathArray = window.location.pathname.split('/');
@@ -84,45 +79,38 @@ function GetData(chartid = 1, zone = 1, hours = 0.5) {
     });
 
     // Callback handler that will be called on success
-    request.done(function (response, textStatus, jqXHR) {
+    request.done(function(response, textStatus, jqXHR) {
         // Log a message to the console
-        console.log("data got for zone: " + zone);
+        console.log("ajax data got for zone: " + zone);
         updateChart(response, chartid, zone, hours);
     });
 
     // Callback handler that will be called on failure
-    request.fail(function (jqXHR, textStatus, errorThrown) {
+    request.fail(function(jqXHR, textStatus, errorThrown) {
         // Log the error to the console
         console.error(
-                "The following error occurred: " +
-                textStatus, errorThrown
-                );
-        intervalTimerHandle[zone] = setTimeout(function () {
+            "The following error occurred: " +
+            textStatus, errorThrown
+        );
+        intervalTimerHandle[zone] = setTimeout(function() {
             GetData(chartid, zone);
         }, updateInterval);
     });
 }
 
-
 //called when succesful ajax call done - to processdata returned and update zone chart
 function updateChart(response, chartid, zone, hours) {
-    //console.log(postAddr);
     var millisecondsLoading;
 
-
-    //window.chart[zone].unload();
     console.log(response.samples.length);
     console.log(response);
-
-    //var obj = {}; //obect to jold objs for graph data/options
 
     //get temps from response oblect
     tSPLo = parseFloat(response.settings.tSPlo);
     tSPHi = parseFloat(response.settings.tSPhi);
     console.log(tSPLo);
     console.log(tSPHi);
-    lightState = response.settings.lightState;
-    console.log("lstate: ", lightState);
+
     //populate data arrays for graph
     var i;
     var time = [];
@@ -155,41 +143,30 @@ function updateChart(response, chartid, zone, hours) {
     for (i = 0; i < response.samples.length; i++) {
         fan.push(response.samples[i].fanstate * 13);
     }
-//    obj["time"] = time;
-//    obj["temperature"] = temperature;
-//    obj["humidity"] = humidity;
-//    obj["heater"] = heater;
-//    obj["vent"] = vent;
-//    obj["fan"] = fan;
 
-    //update last sample time text
-    //update min and max temp readings
-    //get string of numbers from array
     tempstrimmed = temperature.slice(0); //copy string to new string
     tempstrimmed.shift(); //remove first element - eg "temperature"
     tempsstring = tempstrimmed.toString();
-    //console.log(time);
+
     //convert to array of numbers
     temperaturenumbers = tempsstring.split(',').map(parseFloat); // [1, 2, 5, 4, 3]
-    //console.log("titlechart" + chartid);
 
     //update graph texts
     tempmin = Math.min(...temperaturenumbers);
     tempmax = Math.max(...temperaturenumbers);
     tempnow = temperaturenumbers[temperaturenumbers.length - 1];
     temps = "Max t: " + tempmax.toString() + ", Min: " + tempmin.toString() + ", Now: " + tempnow.toString();
-    //document.getElementById("tempschart" + chartid).innerHTML = temps;
 
     tempSettings = "Temp SP Hi: " + tSPHi + ", Lo: " + tSPLo;
-    
+
     systemUpTimeTxt = "System up: " + response.settings.systemUpTime;
     document.getElementById("systemUpTime" + chartid).innerHTML = systemUpTimeTxt;
-    
+
     processUpTimeTxt = "Process up: " + response.settings.processUptime;
     document.getElementById("processUpTime" + chartid).innerHTML = processUpTimeTxt;
 
     document.getElementById("tempSettings" + chartid).innerHTML = tempSettings;
-    
+
     //fill chart titlechart
     titleTxt = "<h6>Zone " + zone + ", " + hours + " hours. " + temps;
     //+",<br>System: " + response.settings.systemMessage + "</h6>";
@@ -199,11 +176,11 @@ function updateChart(response, chartid, zone, hours) {
     //document.getElementById("totalsampleschart" + chartid).innerHTML = 'Samples: ' + '<span class="badge">' + totalsamples + '</span>';
     document.getElementById("totalsampleschart" + chartid).innerHTML = 'Samples: ' + totalsamples;
     var samples_length = response.samples.length - 1;
-    document.getElementById("lastsampletimechart" + chartid).innerHTML = "Last sample time: " + response.samples[samples_length].sample_dt;
+    var last_sample_time = response.samples[samples_length].sample_dt + ', Stale: ' + response.settings.staleMinutes;
+    document.getElementById("lastsampletimechart" + chartid).innerHTML = "Last sample time: " + last_sample_time;
 
-    //document.getElementById("processUptime" + chartid).innerHTML = processUptimeTxt;
-    // document.getElementById("systemMessage" + chartid).innerHTML = "System: " + response.settings.systemMessage;
-
+    lightState = response.settings.lightState;
+    console.log("lstate: ", lightState);
     if (lightState == 0) {
         showStuff("lightOffSpan" + zone);
         hideStuff("lightOnSpan" + zone);
@@ -211,7 +188,15 @@ function updateChart(response, chartid, zone, hours) {
         showStuff("lightOnSpan" + zone);
         hideStuff("lightOffSpan" + zone);
     }
-
+    staleMinutes = response.settings.staleMinutes;
+    if (staleMinutes == 0) {
+        showStuff("staleMinutesFalseSpan" + zone);
+        hideStuff("staleMinutesTrueSpan" + zone);
+    } else {
+      document.getElementById("staleMinutesTrueSpan" + chartid).innerHTML = "Stale: " + staleMinutes;
+        showStuff("staleMinutesTrueSpan" + zone);
+        hideStuff("staleMinutesFalseSpan" + zone);
+    }
 
     tmaxgraph = tSPHi + 1.0;
     tmingraph = tSPLo - 1.5;
@@ -244,62 +229,44 @@ function updateChart(response, chartid, zone, hours) {
     };
 
     console.log(columnsobj);
-
+    //hide loader overlay now chart update processed
+    $("#chart" + chartid).LoadingOverlay("hide");
     //load the new chart data
     chart[zone].internal.loadConfig(axisobj);
     chart[zone].internal.loadConfig(gridobj);
+
+    chart[zone].flush();
     chart[zone].load(columnsobj);
 
     endTimeChartUpdate[chartid] = new Date();
     millisecondsLoading = endTimeChartUpdate[chartid].getTime() - startTimeChartUpdate[chartid].getTime();
-    //convert to seconds
     secondsLoading = millisecondsLoading / 1000;
     //update load time text
     //    $('.loadtimechart' + chartid).html('<span class="badge">' + secondsLoading + '</span>');
     $('.loadtimechart' + chartid).html(secondsLoading);
 
-    // var reload_call = "getgraphdata(chartid, zone)";
-    //console.log(' reload call:  ' + reload_call);
-    //clear current interval
-
-
-//    window.clearInterval(window.intervalTimerHandle[zone]);
-//    //create string to pass into setinterval call
-//    var interval_t = "getgraphdata('" + chartid + "'," + zone + ")";
-//    //set new interval based on last reload time
-    reloadInterval = ((3 * 1000) + (millisecondsLoading * 5));
+    //    //set new interval based on last reload time
+    reloadInterval = ((5 * 1000) + (millisecondsLoading * 5));
     var reloadIntervalSeconds = reloadInterval / 1000;
-//    window.intervalTimerHandle[zone] = window.setInterval(interval_t, reloadInterval);
-//
-//    //document.getElementById("reloadInterval" + chartid).innerHTML = 'Reload Interval: ' + '<span class="badge">' + reloadIntervalSeconds + '</span>' + ' seconds';
-//    // document.getElementById("reloadInterval" + chartid).innerHTML = 'Reload Interval: ' + reloadIntervalSeconds + ' seconds';
-//
+
     //countdown code
     var count = Math.round(reloadIntervalSeconds); //reloadIntervalSeconds;
-    var interval = setInterval(function () {
+    var interval = setInterval(function() {
         count--;
-//        //       document.getElementById("countdown" + chartid).innerHTML = 'Countdown: ' + '<span class="badge">' + count + '</span>' + ' seconds';
-//        //document.getElementById("countdown" + chartid).innerHTML = 'Countdown: ' + count  + ' seconds';
         reloadInfoTxt = 'Reload Interval: ' + reloadIntervalSeconds + ' secs. ' + ' Countdown: ' + count;
         document.getElementById("reloadInfo" + chartid).innerHTML = reloadInfoTxt;
-//
         if (count <= 0) {
             clearInterval(interval);
             return;
         }
     }, 1000);
-    //
-    //window.chart[zone].load(columnsobj);
 
     updateInterval = reloadInterval;
     console.log("update - set timeout for next call. zone: " + zone + ", interval: " + updateInterval);
 
-    intervalTimerHandle[zone] = setTimeout(function () {
+    intervalTimerHandle[zone] = setTimeout(function() {
         GetData(chartid, zone);
     }, updateInterval);
-
-    //hide loader overlay now chart update processed
-    $("#chart" + chartid).LoadingOverlay("hide");
 }
 
 
@@ -315,7 +282,7 @@ axisobj = {
                 count: 60,
                 fit: true,
                 format: '%H:%M:%S'
-                        //format : '%H:%M',
+                //format : '%H:%M',
             }
         },
         y: {
@@ -355,14 +322,14 @@ gridobj = {
         },
         y: {
             lines: [{
-                    value: tSPLo,
-                    text: 'Low SP: ' + tSPLo,
-                    axis: 'y2'
-                }, {
-                    value: tSPHi,
-                    text: 'High SP: ' + tSPHi,
-                    axis: 'y2'
-                }]
+                value: tSPLo,
+                text: 'Low SP: ' + tSPLo,
+                axis: 'y2'
+            }, {
+                value: tSPHi,
+                text: 'High SP: ' + tSPHi,
+                axis: 'y2'
+            }]
         }
     }
 };
@@ -378,7 +345,7 @@ options = {
         xFormat: '%Y-%m-%d %H:%M:%S',
         columns: [
             ['time', '2016-12-15 00:00:00'],
-            ['temperature', 20],
+            ['temperature', 18],
             ['humidity', 50],
             ['heater', 0],
             ['vent', 0],
@@ -389,10 +356,9 @@ options = {
             humidity: '#663399',
             vent: '#3eb308',
             heater: '#bf0d0d',
-            fan: '#f000dd',
-            proctemp: '#000000'
+            fan: '#f000dd'
         },
-        color: function (color, d) {
+        color: function(color, d) {
             // d will be 'id' when called for legends
             return d.id && d.id === 'data3' ? d3.rgb(color).darker(d.value / 150) : color;
         },
@@ -420,7 +386,7 @@ options = {
                 count: 60,
                 fit: true,
                 format: '%H:%M:%S'
-                        //format : '%H:%M',
+                //format : '%H:%M',
             }
         },
         y: {
@@ -442,6 +408,7 @@ options = {
                 position: 'outer-middle'
             },
             max: tmaxgraph,
+            //max: 19,
             min: tmingraph,
             padding: {
                 top: 0,
@@ -455,14 +422,14 @@ options = {
         },
         y: {
             lines: [{
-                    value: 0,
-                    text: 'Low SP',
-                    axis: 'y2'
-                }, {
-                    value: 0,
-                    text: 'High SP',
-                    axis: 'y2'
-                }]
+                value: 18,
+                text: 'Low SP',
+                axis: 'y2'
+            }, {
+                value: 19,
+                text: 'High SP',
+                axis: 'y2'
+            }]
         }
     }
 };
