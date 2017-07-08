@@ -45,6 +45,10 @@
       <div class="links">
         <a href="graphall/0.5">Zone 1 & 2 Graph</a>
       </div>
+      <p>Zone 1, 2 & 3</p>
+      <div class="links">
+        <a href="graphall3inarow/0.5">Zone 1, 2 & 3 Graph</a>
+      </div>
     </div>
         <div class="col-sm-3">
       <p>Zone 1</p>

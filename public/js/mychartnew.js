@@ -1,5 +1,5 @@
 // global vars
-var numZones = 2;
+var numZones = 3;
 var chart = [];
 //var zone = 1;
 var hours = 3;
@@ -159,25 +159,32 @@ function updateChart(response, chartid, zone, hours) {
 
     tempSettings = "Temp SP Hi: " + tSPHi + ", Lo: " + tSPLo;
 
-    systemUpTimeTxt = "System up: " + response.settings.systemUpTime;
+    systemUpTimeTxt = response.settings.systemUpTime;
     document.getElementById("systemUpTime" + chartid).innerHTML = systemUpTimeTxt;
 
-    processUpTimeTxt = "Process up: " + response.settings.processUptime;
+    processUpTimeTxt = response.settings.processUptime;
+
+    controllerMessage = "" + response.settings.controllerMessage;
+    document.getElementById("controllerMessage" + chartid).innerHTML = controllerMessage;
+
+    miscMessage = "" + response.settings.miscMessage;
+    document.getElementById("miscMessage" + chartid).innerHTML = miscMessage;
+
     document.getElementById("processUpTime" + chartid).innerHTML = processUpTimeTxt;
 
     document.getElementById("tempSettings" + chartid).innerHTML = tempSettings;
 
     //fill chart titlechart
-    titleTxt = "<h6>Zone " + zone + ", " + hours + " hours. " + temps;
+    titleTxt = "Zone " + zone + ", " + response.settings.miscMessage + ", " + hours + " hours. " + temps;
     //+",<br>System: " + response.settings.systemMessage + "</h6>";
     document.getElementById("titlechart" + chartid).innerHTML = titleTxt;
 
     var totalsamples = temperaturenumbers.length;
     //document.getElementById("totalsampleschart" + chartid).innerHTML = 'Samples: ' + '<span class="badge">' + totalsamples + '</span>';
-    document.getElementById("totalsampleschart" + chartid).innerHTML = 'Samples: ' + totalsamples;
+    //document.getElementById("totalsampleschart" + chartid).innerHTML = 'Samples: ' + totalsamples;
     var samples_length = response.samples.length - 1;
-    var last_sample_time = response.samples[samples_length].sample_dt + ', Stale: ' + response.settings.staleMinutes;
-    document.getElementById("lastsampletimechart" + chartid).innerHTML = "Last sample time: " + last_sample_time;
+    var last_sample_time = response.samples[samples_length].sample_dt;
+    document.getElementById("lastsampletimechart" + chartid).innerHTML = "Last : " + "(" + totalsamples + ") " + last_sample_time;
 
     lightState = response.settings.lightState;
     console.log("lstate: ", lightState);

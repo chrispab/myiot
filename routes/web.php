@@ -20,6 +20,10 @@ Route::get('graphall/{hours}', function () {
     return view('ajaxgraphall');
 })->middleware('auth');
 
+Route::get('graphall3inarow/{hours}', function () {
+    return view('graphall3inarow');
+})->middleware('auth');
+
 Route::post('getajaxgraphdata/{zone}/{hours}', 'GraphZoneController@getajaxgraphdata')->middleware('auth');
 
 

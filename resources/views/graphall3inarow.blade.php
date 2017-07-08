@@ -29,7 +29,7 @@
 <!-- <script src="/js/bootstrap-slider.min.js"></script> -->
 <!-- <link rel="stylesheet" type="text/css" href="/css/bootstrap-slider.min.css"> -->
 
-<title id="title">MyIoT - Graph All - Hours..</title>
+<title id="title">MyIoT - Graph All 3 in a row - Hours..</title>
 
 <style>
     .graph-text{
@@ -42,14 +42,20 @@
 @section('content')
 <div class="row">
     @for ($i = 1; $i < 4; $i++)
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="panel panel-success">
             <div class="panel-heading " >
 
+              <div class="row">
+                  <div class="col-sm-12">
+                      <h6 class="text-center graph-text" id="titlechart{{$i}}" >Title</h6>
+                  </div>
+              </div>
+
                 <div class="row">
                     <div class="col-sm-6">
-                        <h6 class="text-left graph-text" id="titlechart{{$i}}" >Last sample time: </h6>
-                        <h6 class="text-left graph-text" id="totalsampleschart{{$i}}"  >Samples: </h6>
+                      <h6 class="text-left graph-text" id="lastsampletimechart{{$i}}">Last sample: </h6>
+                        <!-- <h6 class="text-left graph-text" id="totalsampleschart{{$i}}">Samples: </h6> -->
                             <h6  class="text-left graph-text" id="tempSettings{{$i}}">Temperature Settings</h6>
                             <span id="staleMinutesTrueSpan{{$i}}" style="background-color:brown; display: none;" class="badge">Stale</span>
                             <!--<span id="lightOffSpan{{$i}}" style="color:black; display: none;" class="glyphicon glyphicon-certificate">OFF</span>-->
@@ -64,7 +70,7 @@
                         <!-- <h6  class="text-left graph-text" id="tempschart{{$i}}">Temperatures</h6> -->
 
 
-                        <h6 class="text-left graph-text" id="lastsampletimechart{{$i}}">Last sample time: </h6>
+
 
                         <div>
                             <!-- <h6   class="text-left graph-text" id="reloadInterval{{$i}}">Reload Interval</h6> -->

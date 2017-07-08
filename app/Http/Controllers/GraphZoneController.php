@@ -68,6 +68,9 @@ class GraphZoneController extends Controller
                 'systemUpTime' => $config[0]->systemUpTime,
                 'processUptime' => $config[0]->processUptime,
                 'systemMessage' => $config[0]->systemMessage,
+                'controllerMessage' => $config[0]->controllerMessage,
+                'miscMessage' => $config[0]->miscMessage,
+
                 'lightState' => $config[0]->lightState,
                 'staleMinutes' => $minutes
             ];
