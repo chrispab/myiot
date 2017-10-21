@@ -47,9 +47,29 @@
             <div class="panel-heading " >
 
               <div class="row">
-                  <div class="col-sm-12">
-                      <h6 class="text-center graph-text" id="titlechart{{$i}}" >Title</h6>
-                  </div>
+                  <div class="col-sm-5">
+                      <h6 class="text-center graph-text" id="lblLocation{{$i}}" >Location</h6>
+                     <!-- <span id="lightOffSpan{{$i}}" style="background-color:black; display: none; float: right" class="badge">OFF</span>
+                      <span id="lightOnSpan{{$i}}" style="background-color:red; display: none; float: right" class="badge">ON</span> -->
+
+                </div>
+
+                <div class="col-sm-2">
+                                      <!-- <h6 style="display: inline" class="text-center graph-text" id="titlechart{{$i}}" >ON/OFF</h6> -->
+                                     <!-- <h6 class="text-center graph-text"> -->
+                                     <span id="lightOffSpan{{$i}}" style="background-color:black; display: none" class="badge">OFF</span>
+                                      <span id="lightOnSpan{{$i}}" style="background-color:red; display: none" class="badge">ON</span>
+                                    <!-- </h6> -->
+                </div>
+                                
+                <div class="col-sm-5">
+                    <h6  class="text-center graph-text" id="lblTemps{{$i}}" >Temps</h6>
+                   <!-- <span id="lightOffSpan{{$i}}" style="background-color:black; display: none; float: right" class="badge">OFF</span>
+                    <span id="lightOnSpan{{$i}}" style="background-color:red; display: none; float: right" class="badge">ON</span> -->
+
+              </div>
+
+
               </div>
 
                 <div class="row">
@@ -68,23 +88,17 @@
                     </div>
                     <div class="col-sm-6">
                         <!-- <h6  class="text-left graph-text" id="tempschart{{$i}}">Temperatures</h6> -->
-
-
-
-
                         <div>
                             <!-- <h6   class="text-left graph-text" id="reloadInterval{{$i}}">Reload Interval</h6> -->
                             <!-- <h6   class="text-right graph-text" id="countdown{{$i}}">countdown</h6> -->
                         </div>
                         <h6  class="text-left graph-text" id="reloadInfo{{$i}}">Reload Info</h6>
-                        <h6 class="text-left graph-text">Refresh Time: <div class="loadtimechart{{$i}}"style="display: inline-block;"></div> secs </h6>
+                        <h6 class="text-left graph-text">Refreshed in: <div class="loadtimechart{{$i}}"style="display: inline-block;"></div> secs </h6>
 
                         <button type="button" class="btn btn-primary btn-xs" id="reloadchart{{$i}}" >Reload graph data</button>
-                        <span id="lightOffSpan{{$i}}" style="background-color:black; display: none;" class="badge">OFF</span>
+                        <!-- <span id="lightOffSpan{{$i}}" style="background-color:black; display: none;" class="badge">OFF</span>
+                        <span id="lightOnSpan{{$i}}" style="background-color:red; display: none;" class="badge">ON</span> -->
                         <!--<span id="lightOffSpan{{$i}}" style="color:black; display: none;" class="glyphicon glyphicon-certificate">OFF</span>-->
-
-                        <span id="lightOnSpan{{$i}}" style="background-color:red; display: none;" class="badge">ON</span>
-
             <!-- <input id="ex4" type="text" data-slider-min="14" data-slider-max="25" data-slider-step="0.1" data-slider-value="20" data-slider-orientation="vertical"/> -->
                     </div>
                 </div>
