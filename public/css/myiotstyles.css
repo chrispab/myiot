@@ -1,20 +1,38 @@
     html, body {
-        background-color: #224720;
-        color: #1672a6;
-        font-family: 'Mako';
-        /*font-weight: 10;*/
-        /*font-size: 95%;*/
-        /*height: 100vh;*/
-        /*margin: 0;*/
+      background-color: #224720;
+      color: #000000;
+      font-family: 'Mako';
+      /*font-weight: 10;*/
+      /*font-size: 90%;*/
+      /*height: 100vh;*/
+      /*margin: 0;*/
+    }
+
+    h6 {
+      font-size: 0.75em;
+    }
+
+    p {
+      font-size: 0.75em;
+    }
+
+    .card {
+      background-color: #62a448;
+    }
+    .card-header {
+      background-color: #62a448;
     }
 
     .card-body {
-      background-color: #caf4b9;
-
+      background-color: #aeff9c;
     }
+
+    .card-footer {
+      background-color: #62a448;
+    }
+
     .panel-body {
       background-color: #caf4b9;
-
     }
 
     /*.navbar {

@@ -16,7 +16,15 @@ var myVar;
 var tSPLo = 17;
 var tSPHi = 18;
 var lightState = 0;
-//window.chart = [];
+
+//max and min humidity axis displayed
+var maxHumidityAxis = 100;
+var minHumidityAxis = 0;
+
+var heaterGraphHeight = 5;
+var ventGraphHeight = 7;
+var fanGraphHeight = 3;
+
 var intervalTimerHandle = [];
 
 var axisobj = {};
@@ -48,6 +56,13 @@ $(document).ready(function() { // when doc loaded loop round graphs, create and 
   }
 });
 
+function showStuff(id) {
+  document.getElementById(id).style.display = '';
+}
+
+function hideStuff(id) {
+  document.getElementById(id).style.display = 'none';
+}
 
 function initData() {}
 
@@ -131,17 +146,17 @@ function updateChart(response, chartid, zone, hours) {
   var heater = [];
   heater.push("heater");
   for (i = 0; i < response.samples.length; i++) {
-    heater.push(response.samples[i].heaterstate * 19);
+    heater.push(response.samples[i].heaterstate * heaterGraphHeight);
   }
   var vent = [];
   vent.push("vent");
   for (i = 0; i < response.samples.length; i++) {
-    vent.push(response.samples[i].ventstate * 16);
+    vent.push(response.samples[i].ventstate * ventGraphHeight);
   }
   var fan = [];
   fan.push("fan");
   for (i = 0; i < response.samples.length; i++) {
-    fan.push(response.samples[i].fanstate * 13);
+    fan.push(response.samples[i].fanstate * fanGraphHeight);
   }
 
   tempstrimmed = temperature.slice(0); //copy string to new string
@@ -174,7 +189,7 @@ function updateChart(response, chartid, zone, hours) {
   document.getElementById("processUpTime" + chartid).innerHTML = processUpTimeTxt;
 
   tempSettings = "Temp SP Hi: " + tSPHi + ", Lo: " + tSPLo;
-  document.getElementById("tempSettings" + chartid).innerHTML = tempSettings;
+  // document.getElementById("tempSettings" + chartid).innerHTML = tempSettings;
 
   //fill chart titlechart
   //titleTxt = response.settings.miscMessage + ", "  + "Zone " + zone + ", " + hours + " hours. " + temps;
@@ -266,7 +281,7 @@ function updateChart(response, chartid, zone, hours) {
   var count = Math.round(reloadIntervalSeconds); //reloadIntervalSeconds;
   var interval = setInterval(function() {
     count--;
-    reloadInfoTxt = 'Reload t: ' + reloadIntervalSeconds + ' secs. ' + ' Countdown: ' + count;
+    reloadInfoTxt = 'Reload t: ' + reloadIntervalSeconds + ' secs. ' + ' T-: ' + count;
     document.getElementById("reloadInfo" + chartid).innerHTML = reloadInfoTxt;
     if (count <= 0) {
       clearInterval(interval);
@@ -303,8 +318,8 @@ axisobj = {
         text: 'Humidity',
         position: 'outer-middle'
       },
-      max: 90,
-      min: 10,
+      max: maxHumidityAxis,
+      min: minHumidityAxis,
       padding: {
         top: 0,
         bottom: 0
@@ -446,12 +461,3 @@ options = {
     }
   }
 };
-
-
-function showStuff(id) {
-  document.getElementById(id).style.display = '';
-}
-
-function hideStuff(id) {
-  document.getElementById(id).style.display = 'none';
-}
